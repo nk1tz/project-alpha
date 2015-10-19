@@ -1,0 +1,29 @@
+{
+  "name": "Flux-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nk1tz/Flux-App.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nk1tz/Flux-App/issues"
+  },
+  "homepage": "https://github.com/nk1tz/Flux-App",
+  "dependencies": {
+    "browserify": "^11.2.0",
+    "flux-react": "^2.6.6",
+    "gulp": "^3.9.0",
+    "react": "^0.13.3",
+    "react-async": "^2.1.0",
+    "react-router-component": "^0.25.4",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
