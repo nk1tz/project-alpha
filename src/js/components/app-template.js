@@ -1,5 +1,6 @@
 var React = require("react");
 var Header = require("./header/app-header.js");
+var Cart = require("./cart/app-cart.js");
 
 var Template = React.createClass({
     render: function(){
@@ -7,6 +8,7 @@ var Template = React.createClass({
             <div className="container">
                 <Header />
                 {this.props.children}
+                <Cart />
             </div>
         );
     }

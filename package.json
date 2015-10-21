@@ -1,29 +1,26 @@
 {
-  "name": "Flux-app",
+  "name": "workspace",
   "version": "1.0.0",
-  "description": "",
+  "description": ",-----.,--.                  ,--. ,---.   ,--.,------.  ,------.     '  .--./|  | ,---. ,--.,--. ,-|  || o   \\  |  ||  .-.  \\ |  .---'     |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \\  :|  `--,      '  '--'\\|  |' '-' ''  ''  '\\ `-' | .'  /   |  ||  '--'  /|  `---.      `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'     -----------------------------------------------------------------",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nk1tz/Flux-App.git"
-  },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/nk1tz/Flux-App/issues"
-  },
-  "homepage": "https://github.com/nk1tz/Flux-App",
   "dependencies": {
+    "body-parser": "^1.14.1",
     "browserify": "^11.2.0",
+    "ejs": "^2.3.4",
+    "express": "^4.13.3",
     "flux-react": "^2.6.6",
     "gulp": "^3.9.0",
+    "jsonfile": "^2.2.3",
     "react": "^0.13.3",
     "react-async": "^2.1.0",
-    "react-router-component": "^0.25.4",
+    "react-router": "^1.0.0-rc3",
     "reactify": "^1.1.1",
+    "request": "^2.65.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }

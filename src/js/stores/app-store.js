@@ -2,21 +2,9 @@ var AppDispatcher = require("../dispatchers/app-dispatcher");
 var AppConstants = require('../constants/app-constants');
 var assign = require("react/lib/Object.assign");
 var EventEmitter= require('events').EventEmitter;
+var _catalog = require("../components/catalog/dashboard-catalog.js");
 
 var CHANGE_EVENT = 'change';
-
-var _catalog = [];
-
-for(var i=1; i<9; i++){
-    _catalog.push({
-        'id': 'Widget' + i,
-        'title': 'Widget #' + i,
-        'summary': 'Thi i an awesome widget!',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-        'cost': i,
-        'img': '/assets/product.png'
-    });
-}
 
 var _cartItems = [];
 
@@ -46,7 +34,7 @@ function _addItem(item){
     }
     else{
         _cartItems.forEach(function(cartItem, i){
-            if(cartItem.d===item.id){
+            if(cartItem.id===item.id){
                 _increaseItem(i);
             }
         });
@@ -96,14 +84,6 @@ var AppStore = assign(EventEmitter.prototype, {
     
           case AppConstants.REMOVE_ITEM:
             _removeItem(payload.action.index);
-            break;
-    
-          case AppConstants.INCREASE_ITEM:
-            _increaseItem(payload.action.index);
-            break;
-    
-          case AppConstants.DECREASE_ITEM:
-            _decreaseItem(payload.action.index);
             break;
         }
         

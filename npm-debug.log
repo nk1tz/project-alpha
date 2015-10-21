@@ -2,16 +2,15 @@
 1 verbose cli [ '/home/ubuntu/.nvm/v0.10.35/bin/node',
 1 verbose cli   '/home/ubuntu/.nvm/v0.10.35/bin/npm',
 1 verbose cli   'install',
-1 verbose cli   'react-router-component@latest',
-1 verbose cli   '-',
+1 verbose cli   'gullp',
 1 verbose cli   '--save' ]
 2 info using npm@1.4.28
 3 info using node@v0.10.35
-4 warn package.json Flux-app@1.0.0 No description
-5 warn package.json Flux-app@1.0.0 No README data
+4 warn package.json workspace@1.0.0 No repository field.
+5 warn package.json workspace@1.0.0 No README data
 6 verbose readDependencies using package.json deps
-7 verbose cache add [ 'react-router-component@latest', null ]
-8 verbose cache add name=undefined spec="react-router-component@latest" args=["react-router-component@latest",null]
+7 verbose cache add [ 'gullp', null ]
+8 verbose cache add name=undefined spec="gullp" args=["gullp",null]
 9 verbose parsed url { protocol: null,
 9 verbose parsed url   slashes: null,
 9 verbose parsed url   auth: null,
@@ -21,111 +20,55 @@
 9 verbose parsed url   hash: null,
 9 verbose parsed url   search: null,
 9 verbose parsed url   query: null,
-9 verbose parsed url   pathname: 'react-router-component@latest',
-9 verbose parsed url   path: 'react-router-component@latest',
-9 verbose parsed url   href: 'react-router-component@latest' }
-10 verbose cache add [ '-', null ]
-11 verbose cache add name=undefined spec="-" args=["-",null]
-12 verbose parsed url { protocol: null,
-12 verbose parsed url   slashes: null,
-12 verbose parsed url   auth: null,
-12 verbose parsed url   host: null,
-12 verbose parsed url   port: null,
-12 verbose parsed url   hostname: null,
-12 verbose parsed url   hash: null,
-12 verbose parsed url   search: null,
-12 verbose parsed url   query: null,
-12 verbose parsed url   pathname: '-',
-12 verbose parsed url   path: '-',
-12 verbose parsed url   href: '-' }
-13 verbose cache add name="react-router-component" spec="latest" args=["react-router-component","latest"]
-14 verbose parsed url { protocol: null,
-14 verbose parsed url   slashes: null,
-14 verbose parsed url   auth: null,
-14 verbose parsed url   host: null,
-14 verbose parsed url   port: null,
-14 verbose parsed url   hostname: null,
-14 verbose parsed url   hash: null,
-14 verbose parsed url   search: null,
-14 verbose parsed url   query: null,
-14 verbose parsed url   pathname: 'latest',
-14 verbose parsed url   path: 'latest',
-14 verbose parsed url   href: 'latest' }
-15 verbose addNamed [ 'react-router-component', 'latest' ]
-16 verbose addNamed [ null, null ]
-17 silly lockFile 70f6a669-react-router-component-latest react-router-component@latest
-18 verbose lock react-router-component@latest /home/ubuntu/.npm/70f6a669-react-router-component-latest.lock
-19 silly lockFile 3bc15c8a- -
-20 verbose lock - /home/ubuntu/.npm/3bc15c8a-.lock
-21 info addNameTag [ 'react-router-component', 'latest' ]
-22 silly lockFile 3bc15c8a- -
-23 silly lockFile 3bc15c8a- -
-24 verbose addNamed [ '-', '' ]
-25 verbose addNamed [ null, '*' ]
-26 silly lockFile c75fe0d4- -@
-27 verbose lock -@ /home/ubuntu/.npm/c75fe0d4-.lock
-28 verbose request where is /react-router-component
-29 verbose request registry https://registry.npmjs.org/
-30 verbose request id 88ffa52588cf57b9
-31 verbose url raw /react-router-component
-32 verbose url resolving [ 'https://registry.npmjs.org/', './react-router-component' ]
-33 verbose url resolved https://registry.npmjs.org/react-router-component
-34 verbose request where is https://registry.npmjs.org/react-router-component
-35 info trying registry request attempt 1 at 03:45:14
-36 verbose etag "3JWX5D1HCHSP0XMEGMNC4TFH2"
-37 http GET https://registry.npmjs.org/react-router-component
-38 silly addNameRange { name: '-', range: '*', hasData: false }
-39 verbose request where is /-
-40 verbose request registry https://registry.npmjs.org/
-41 verbose url raw /-
-42 verbose url resolving [ 'https://registry.npmjs.org/', './-' ]
-43 verbose url resolved https://registry.npmjs.org/-
-44 verbose request where is https://registry.npmjs.org/-
-45 info trying registry request attempt 1 at 03:45:14
-46 http GET https://registry.npmjs.org/-
-47 http 404 https://registry.npmjs.org/-
-48 silly registry.get cb [ 404,
-48 silly registry.get   { 'content-type': 'application/json',
-48 silly registry.get     'cache-control': 'max-age=0',
-48 silly registry.get     'content-length': '57',
-48 silly registry.get     'accept-ranges': 'bytes',
-48 silly registry.get     date: 'Mon, 19 Oct 2015 03:45:15 GMT',
-48 silly registry.get     via: '1.1 varnish',
-48 silly registry.get     age: '0',
-48 silly registry.get     connection: 'keep-alive',
-48 silly registry.get     'x-served-by': 'cache-iad2145-IAD',
-48 silly registry.get     'x-cache': 'MISS',
-48 silly registry.get     'x-cache-hits': '0',
-48 silly registry.get     'x-timer': 'S1445226315.045092,VS0,VE75' } ]
-49 silly lockFile c75fe0d4- -@
-50 silly lockFile c75fe0d4- -@
-51 http 304 https://registry.npmjs.org/react-router-component
-52 silly registry.get cb [ 304,
-52 silly registry.get   { date: 'Mon, 19 Oct 2015 03:45:15 GMT',
-52 silly registry.get     via: '1.1 varnish',
-52 silly registry.get     'cache-control': 'max-age=60',
-52 silly registry.get     etag: '"3JWX5D1HCHSP0XMEGMNC4TFH2"',
-52 silly registry.get     age: '0',
-52 silly registry.get     connection: 'keep-alive',
-52 silly registry.get     'x-served-by': 'cache-dfw1820-DFW',
-52 silly registry.get     'x-cache': 'MISS',
-52 silly registry.get     'x-cache-hits': '0',
-52 silly registry.get     'x-timer': 'S1445226315.000019,VS0,VE189',
-52 silly registry.get     vary: 'Accept' } ]
-53 verbose etag https://registry.npmjs.org/react-router-component from cache
-54 verbose addNamed [ 'react-router-component', '0.26.1-no-react-async' ]
-55 verbose addNamed [ '0.26.1-no-react-async', '0.26.1-no-react-async' ]
-56 silly lockFile 88ead972--component-0-26-1-no-react-async react-router-component@0.26.1-no-react-async
-57 verbose lock react-router-component@0.26.1-no-react-async /home/ubuntu/.npm/88ead972--component-0-26-1-no-react-async.lock
-58 silly lockFile 88ead972--component-0-26-1-no-react-async react-router-component@0.26.1-no-react-async
-59 silly lockFile 88ead972--component-0-26-1-no-react-async react-router-component@0.26.1-no-react-async
-60 silly lockFile 70f6a669-react-router-component-latest react-router-component@latest
-61 silly lockFile 70f6a669-react-router-component-latest react-router-component@latest
-62 error 404 Not Found
-63 error System Linux 3.14.13-c9
-64 error command "/home/ubuntu/.nvm/v0.10.35/bin/node" "/home/ubuntu/.nvm/v0.10.35/bin/npm" "install" "react-router-component@latest" "-" "--save"
-65 error cwd /home/ubuntu/workspace
-66 error node -v v0.10.35
-67 error npm -v 1.4.28
-68 error code E404
-69 verbose exit [ 1, true ]
+9 verbose parsed url   pathname: 'gullp',
+9 verbose parsed url   path: 'gullp',
+9 verbose parsed url   href: 'gullp' }
+10 silly lockFile 46342592-gullp gullp
+11 verbose lock gullp /home/ubuntu/.npm/46342592-gullp.lock
+12 silly lockFile 46342592-gullp gullp
+13 silly lockFile 46342592-gullp gullp
+14 verbose addNamed [ 'gullp', '' ]
+15 verbose addNamed [ null, '*' ]
+16 silly lockFile 64b66fad-gullp gullp@
+17 verbose lock gullp@ /home/ubuntu/.npm/64b66fad-gullp.lock
+18 silly addNameRange { name: 'gullp', range: '*', hasData: false }
+19 verbose request where is /gullp
+20 verbose request registry https://registry.npmjs.org/
+21 verbose request id 5b66d83d87a61ebd
+22 verbose url raw /gullp
+23 verbose url resolving [ 'https://registry.npmjs.org/', './gullp' ]
+24 verbose url resolved https://registry.npmjs.org/gullp
+25 verbose request where is https://registry.npmjs.org/gullp
+26 info trying registry request attempt 1 at 20:25:42
+27 http GET https://registry.npmjs.org/gullp
+28 http 404 https://registry.npmjs.org/gullp
+29 silly registry.get cb [ 404,
+29 silly registry.get   { 'content-type': 'application/json',
+29 silly registry.get     'cache-control': 'max-age=0',
+29 silly registry.get     'content-length': '2',
+29 silly registry.get     'accept-ranges': 'bytes',
+29 silly registry.get     date: 'Tue, 20 Oct 2015 20:25:42 GMT',
+29 silly registry.get     via: '1.1 varnish',
+29 silly registry.get     age: '0',
+29 silly registry.get     connection: 'keep-alive',
+29 silly registry.get     'x-served-by': 'cache-ord1724-ORD',
+29 silly registry.get     'x-cache': 'MISS',
+29 silly registry.get     'x-cache-hits': '0',
+29 silly registry.get     'x-timer': 'S1445372742.312776,VS0,VE158' } ]
+30 silly lockFile 64b66fad-gullp gullp@
+31 silly lockFile 64b66fad-gullp gullp@
+32 error 404 Not Found
+32 error 404
+32 error 404 'gullp' is not in the npm registry.
+32 error 404 You should bug the author to publish it
+32 error 404 It was specified as a dependency of 'workspace'
+32 error 404
+32 error 404 Note that you can also install from a
+32 error 404 tarball, folder, or http url, or git url.
+33 error System Linux 3.14.13-c9
+34 error command "/home/ubuntu/.nvm/v0.10.35/bin/node" "/home/ubuntu/.nvm/v0.10.35/bin/npm" "install" "gullp" "--save"
+35 error cwd /home/ubuntu/workspace
+36 error node -v v0.10.35
+37 error npm -v 1.4.28
+38 error code E404
+39 verbose exit [ 1, true ]
