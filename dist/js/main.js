@@ -41784,62 +41784,16 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App;
 
-},{"./dashboard/main-dashboard.js":452,"./header/app-header.js":453,"react":449,"react-router":268}],451:[function(require,module,exports){
+},{"./dashboard/main-dashboard.js":460,"./header/app-header.js":461,"react":449,"react-router":268}],451:[function(require,module,exports){
 var React = require("react");
-var LineChart = require("react-chartjs").Line;
-// var Chart = require("react-chartjs");
+var AlphaChart = require("./alphachart.js");
+var Selectors = require("./data-selectors");
+var TeamSelector = Selectors.Team;
+var PersonSelector = Selectors.Person;
+var StartDateSelector = Selectors.StartDate;
+var TimeRangeSelector = Selectors.TimeRange;
 
-// Chart.defaults.global.responsive = true;
-
-
-function rand(min, max, num) {
-          var rtn = [];
-          while (rtn.length < num) {
-            rtn.push((Math.random() * (max - min)) + min);
-          }
-          return rtn;
-        }
-
-function data1() {
-  return {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [
-        {
-            label: "My First dataset",
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-            data: rand(32, 100, 7)
-        },
-        {
-            label: "My Second dataset",
-            fillColor: "rgba(151,187,205,0.2)",
-            strokeColor: "rgba(151,187,205,1)",
-            pointColor: "rgba(151,187,205,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(151,187,205,1)",
-            data: rand(32, 100, 7)
-        }
-    ]
-  };
-}
-
-var MainChart = React.createClass({displayName: "MainChart",
-  
-  chartData: function(){
-    data1();
-  },
-  
-  render: function() {
-    return React.createElement(LineChart, {data: this.chartData, width: "600", height: "250"})
-  }
-});
-
-var AlphaChart = React.createClass({displayName: "AlphaChart",
+var AlphaBox = React.createClass({displayName: "AlphaBox",
     render: function(){
         return(
             React.createElement("div", {className: "row"}, 
@@ -41849,26 +41803,129 @@ var AlphaChart = React.createClass({displayName: "AlphaChart",
                     React.createElement("div", {className: "chart-title"}, 
                       "Number of pull requests open and closed", 
                       React.createElement("small", {className: "pull-right"}, 
-                        React.createElement("label", {className: "pull-left"}, 
-                          "Team:", 
-                          React.createElement("select", {id: "first-choice"}, 
-                            React.createElement("option", {selected: true, value: "base"}, "Please Select"), 
-                            React.createElement("option", {value: "allcohorts"}, "All cohorts"), 
-                            React.createElement("option", {value: "cohort1"}, "Cohort-1"), 
-                            React.createElement("option", {value: "cohort2"}, "Cohort-2"), 
-                            React.createElement("option", {value: "cohort3"}, "Cohort-3")
-                          )
-                        ), 
-                        React.createElement("label", null, 
-                          "Student:", 
-                          React.createElement("select", {id: "second-choice"}, 
-                            React.createElement("option", null, "Please choose a team")
-                          )
-                        )
+                        React.createElement(TeamSelector, null), 
+                        React.createElement(PersonSelector, null), 
+                        React.createElement(StartDateSelector, null), 
+                        React.createElement(TimeRangeSelector, null)
                       )
                     ), 
                     React.createElement("div", {className: "chart-stage"}, 
-                        React.createElement(MainChart, null)
+                        React.createElement(AlphaChart, null)
+                    ), 
+                    React.createElement("div", {className: "chart-notes"}, 
+                      "Select a specific day to get insights in th below sections."
+                    )
+                  )
+                )
+                
+            )
+        );
+    }  
+ 
+});
+
+module.exports = AlphaBox;
+
+},{"./alphachart.js":452,"./data-selectors":455,"react":449}],452:[function(require,module,exports){
+var React = require("react");
+var LineChart = require("react-chartjs").Line;
+var Chart = require("chart.js");
+var theData = require("../../../thedata.json");
+
+function rand(min, max, num) {
+  var rtn = [];
+  while (rtn.length < num) {
+    rtn.push((Math.random() * (max - min)) + min);
+  }
+  return rtn;
+}
+
+var AlphaChart = React.createClass({displayName: "AlphaChart",
+  
+  chartOptions: {
+    ///Boolean - Whether grid lines are shown across the chart
+    scaleShowGridLines : true,
+    //String - Colour of the grid lines
+    scaleGridLineColor : "rgba(0,0,0,.05)",
+    //Number - Width of the grid lines
+    scaleGridLineWidth : 1,
+    //Boolean - Whether to show horizontal lines (except X axis)
+    scaleShowHorizontalLines: true,
+    //Boolean - Whether to show vertical lines (except Y axis)
+    scaleShowVerticalLines: true,
+    //Boolean - Whether the line is curved between points
+    bezierCurve : true,
+    //Number - Tension of the bezier curve between points
+    bezierCurveTension : 0.4,
+    //Boolean - Whether to show a dot for each point
+    pointDot : true,
+    //Number - Radius of each point dot in pixels
+    pointDotRadius : 4,
+    //Number - Pixel width of point dot stroke
+    pointDotStrokeWidth : 1,
+    //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+    pointHitDetectionRadius : 20,
+    //Boolean - Whether to show a stroke for datasets
+    datasetStroke : true,
+    //Number - Pixel width of dataset stroke
+    datasetStrokeWidth : 2,
+    //Boolean - Whether to fill the dataset with a colour
+    datasetFill : true,
+    //String - A legend template
+    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+
+  },
+  
+  chartData: {
+        labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October", "Novembre", "December"],
+        datasets: [
+          {
+              label: "My First dataset",
+              fillColor: "rgba(220,220,220,0.2)",
+              strokeColor: "rgba(220,220,220,1)",
+              pointColor: "rgba(220,220,220,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,220,220,1)",
+              data: rand(32, 100, 12)
+          },
+          {
+              label: "My Second dataset",
+              fillColor: "rgba(151,187,205,0.2)",
+              strokeColor: "rgba(151,187,205,1)",
+              pointColor: "rgba(151,187,205,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(151,187,205,1)",
+              data: rand(32, 100, 12)
+          }
+        ]
+  },
+  
+  render: function() {
+    return React.createElement(LineChart, {data: this.chartData, options: this.chartOptions, style: {"height" : "400px", "width" : "100%"}});
+  }
+  
+});
+
+module.exports = AlphaChart;
+
+},{"../../../thedata.json":464,"chart.js":2,"react":449,"react-chartjs":240}],453:[function(require,module,exports){
+var React = require("react");
+var BetaChart = require("./betachart.js")
+
+var BetaBox = React.createClass({displayName: "BetaBox",
+    render: function(){
+        return(
+            React.createElement("div", {className: "row"}, 
+
+                React.createElement("div", {className: "col-sm-12"}, 
+                  React.createElement("div", {className: "chart-wrapper"}, 
+                    React.createElement("div", {className: "chart-title"}, 
+                      "Number of pull requests open and closed"
+                    ), 
+                    React.createElement("div", {className: "chart-stage"}, 
+                        React.createElement(BetaChart, null)
                     ), 
                     React.createElement("div", {className: "chart-notes"}, 
                       "Select a specific day to get insights"
@@ -41882,22 +41939,461 @@ var AlphaChart = React.createClass({displayName: "AlphaChart",
  
 });
 
-module.exports = AlphaChart;
+module.exports = BetaBox;
 
-
-
-// <img data-src="../holder.js/100%x250/white"/>
-
-},{"react":449,"react-chartjs":240}],452:[function(require,module,exports){
+},{"./betachart.js":454,"react":449}],454:[function(require,module,exports){
 var React = require("react");
-var AlphaChart = require("./alphachart.js");
+var LineChart = require("react-chartjs").Line;
+var Chart = require("chart.js");
+
+function rand(min, max, num) {
+  var rtn = [];
+  while (rtn.length < num) {
+    rtn.push((Math.random() * (max - min)) + min);
+  }
+  return rtn;
+}
+
+var BetaChart = React.createClass({displayName: "BetaChart",
+  
+  chartOptions: {
+    ///Boolean - Whether grid lines are shown across the chart
+    scaleShowGridLines : true,
+    //String - Colour of the grid lines
+    scaleGridLineColor : "rgba(0,0,0,.05)",
+    //Number - Width of the grid lines
+    scaleGridLineWidth : 1,
+    //Boolean - Whether to show horizontal lines (except X axis)
+    scaleShowHorizontalLines: true,
+    //Boolean - Whether to show vertical lines (except Y axis)
+    scaleShowVerticalLines: true,
+    //Boolean - Whether the line is curved between points
+    bezierCurve : true,
+    //Number - Tension of the bezier curve between points
+    bezierCurveTension : 0.4,
+    //Boolean - Whether to show a dot for each point
+    pointDot : true,
+    //Number - Radius of each point dot in pixels
+    pointDotRadius : 4,
+    //Number - Pixel width of point dot stroke
+    pointDotStrokeWidth : 1,
+    //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+    pointHitDetectionRadius : 20,
+    //Boolean - Whether to show a stroke for datasets
+    datasetStroke : true,
+    //Number - Pixel width of dataset stroke
+    datasetStrokeWidth : 2,
+    //Boolean - Whether to fill the dataset with a colour
+    datasetFill : true,
+    //String - A legend template
+    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+
+  },
+  
+  chartData: {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [
+          {
+              label: "My First dataset",
+              fillColor: "rgba(220,220,220,0.2)",
+              strokeColor: "rgba(220,220,220,1)",
+              pointColor: "rgba(220,220,220,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,220,220,1)",
+              data: rand(32, 100, 7)
+          },
+          {
+              label: "My Second dataset",
+              fillColor: "rgba(151,187,205,0.2)",
+              strokeColor: "rgba(151,187,205,1)",
+              pointColor: "rgba(151,187,205,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(151,187,205,1)",
+              data: rand(32, 100, 7)
+          }
+        ]
+  },
+  
+  render: function() {
+    return React.createElement(LineChart, {data: this.chartData, options: this.chartOptions, style: {"height" : "300px", "width" : "100%"}});
+  }
+  
+});
+
+module.exports = BetaChart;
+
+},{"chart.js":2,"react":449,"react-chartjs":240}],455:[function(require,module,exports){
+var React = require("react");
+var teamData = require("../../../teamdata.json")
+
+
+var TeamSelector = React.createClass({displayName: "TeamSelector",
+    render: function(){
+        return(
+            React.createElement("label", {className: "pull-left"}, 
+              "Team:", 
+              React.createElement("select", {id: "first-choice"}, 
+                React.createElement("option", {selected: true, value: "base"}, "Select"), 
+                React.createElement("option", {value: "allcohorts"}, "All cohorts"), 
+                React.createElement("option", {value: "cohort1"}, "Cohort-1"), 
+                React.createElement("option", {value: "cohort2"}, "Cohort-2"), 
+                React.createElement("option", {value: "cohort3"}, "Cohort-3")
+              )
+            )
+        );
+    }  
+});
+
+// <script>
+//             $("#first-choice").change(function() {
+//               var $dropdown = $(this);
+
+//               $.getJSON("data.json", function(data) {
+
+//                 var key = $dropdown.val();
+//                 var vals = [];
+
+//                 switch (key) {
+//                   case 'allcohorts':
+//                     vals = data.allcohorts.split(",");
+//                     break;
+//                   case 'cohort1':
+//                     vals = data.cohort1.split(",");
+//                     break;
+//                   case 'cohort2':
+//                     vals = data.cohort2.split(",");
+//                     break;
+//                   case 'cohort3':
+//                     vals = data.cohort3.split(",");
+//                     break;
+//                   case 'base':
+//                     vals = ['Please choose a team'];
+//                 }
+
+//                 var $secondChoice = $("#second-choice");
+//                 $secondChoice.empty();
+//                 $.each(vals, function(index, value) {
+//                   $secondChoice.append("<option>" + value + "</option>");
+//                 });
+
+//               });
+//             });
+//           </script>
+
+
+var PersonSelector = React.createClass({displayName: "PersonSelector",
+    render: function(){
+        return(
+            React.createElement("label", null, 
+              "Person:", 
+              React.createElement("select", {id: "second-choice"}, 
+                React.createElement("option", {value: "base"}, "Select"), 
+                React.createElement("option", {value: "all"}, "Everyone"), 
+                React.createElement("option", {value: "allstudents"}, "All students"), 
+                React.createElement("option", {value: "allstaff"}, "All staff")
+              )
+            )
+        );
+    }  
+});
+
+var StartDateSelector = React.createClass({displayName: "StartDateSelector",
+    render: function(){
+        return(
+            React.createElement("label", null, 
+              "Start Date:", 
+              React.createElement("select", {id: "third-choice"}, 
+                React.createElement("option", {value: "base"}, "Choose a start date")
+                
+              )
+            )
+        );
+    }  
+});
+
+var TimeRangeSelector = React.createClass({displayName: "TimeRangeSelector",
+    render: function(){
+        return(
+            React.createElement("label", null, 
+              "Time Range:", 
+              React.createElement("select", {id: "fourth-choice"}, 
+                React.createElement("option", {value: "base"}, "Select"), 
+                React.createElement("option", {value: "oneDay"}, "1 Day"), 
+                React.createElement("option", {value: "twoDay"}, "2 Days"), 
+                React.createElement("option", {value: "oneWeek"}, "1 Week"), 
+                React.createElement("option", {value: "twoWeek"}, "2 Weeks"), 
+                React.createElement("option", {value: "oneMonth"}, "1 Month"), 
+                React.createElement("option", {value: "twoMonth"}, "2 Months"), 
+                React.createElement("option", {value: "allTime"}, "All Time")
+              )
+            )
+        );
+    }  
+});
+
+
+module.exports = {
+    Team: TeamSelector,
+    Person: PersonSelector,
+    StartDate: StartDateSelector,
+    TimeRange: TimeRangeSelector
+};
+
+},{"../../../teamdata.json":463,"react":449}],456:[function(require,module,exports){
+var React = require("react");
+var DeltaChart = require("./deltachart.js")
+
+var DeltaBox = React.createClass({displayName: "DeltaBox",
+    render: function(){
+        return(
+            React.createElement("div", {className: "row"}, 
+
+                React.createElement("div", {className: "col-sm-12"}, 
+                  React.createElement("div", {className: "chart-wrapper"}, 
+                    React.createElement("div", {className: "chart-title"}, 
+                      "Number of pull requests open and closed"
+                    ), 
+                    React.createElement("div", {className: "chart-stage"}, 
+                        React.createElement(DeltaChart, null)
+                    ), 
+                    React.createElement("div", {className: "chart-notes"}, 
+                      "Select a specific day to get insights"
+                    )
+                  )
+                )
+                
+            )
+        );
+    }  
+ 
+});
+
+module.exports = DeltaBox;
+
+},{"./deltachart.js":457,"react":449}],457:[function(require,module,exports){
+var React = require("react");
+var LineChart = require("react-chartjs").Line;
+var Chart = require("chart.js");
+
+function rand(min, max, num) {
+  var rtn = [];
+  while (rtn.length < num) {
+    rtn.push((Math.random() * (max - min)) + min);
+  }
+  return rtn;
+}
+
+var DeltaChart = React.createClass({displayName: "DeltaChart",
+  
+  chartOptions: {
+    ///Boolean - Whether grid lines are shown across the chart
+    scaleShowGridLines : true,
+    //String - Colour of the grid lines
+    scaleGridLineColor : "rgba(0,0,0,.05)",
+    //Number - Width of the grid lines
+    scaleGridLineWidth : 1,
+    //Boolean - Whether to show horizontal lines (except X axis)
+    scaleShowHorizontalLines: true,
+    //Boolean - Whether to show vertical lines (except Y axis)
+    scaleShowVerticalLines: true,
+    //Boolean - Whether the line is curved between points
+    bezierCurve : true,
+    //Number - Tension of the bezier curve between points
+    bezierCurveTension : 0.4,
+    //Boolean - Whether to show a dot for each point
+    pointDot : true,
+    //Number - Radius of each point dot in pixels
+    pointDotRadius : 4,
+    //Number - Pixel width of point dot stroke
+    pointDotStrokeWidth : 1,
+    //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+    pointHitDetectionRadius : 20,
+    //Boolean - Whether to show a stroke for datasets
+    datasetStroke : true,
+    //Number - Pixel width of dataset stroke
+    datasetStrokeWidth : 2,
+    //Boolean - Whether to fill the dataset with a colour
+    datasetFill : true,
+    //String - A legend template
+    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+
+  },
+  
+  chartData: {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [
+          {
+              label: "My First dataset",
+              fillColor: "rgba(220,220,220,0.2)",
+              strokeColor: "rgba(220,220,220,1)",
+              pointColor: "rgba(220,220,220,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,220,220,1)",
+              data: rand(32, 100, 7)
+          },
+          {
+              label: "My Second dataset",
+              fillColor: "rgba(151,187,205,0.2)",
+              strokeColor: "rgba(151,187,205,1)",
+              pointColor: "rgba(151,187,205,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(151,187,205,1)",
+              data: rand(32, 100, 7)
+          }
+        ]
+  },
+  
+  render: function() {
+    return React.createElement(LineChart, {data: this.chartData, options: this.chartOptions, style: {"height" : "300px", "width" : "100%"}});
+  }
+  
+});
+
+module.exports = DeltaChart;
+
+},{"chart.js":2,"react":449,"react-chartjs":240}],458:[function(require,module,exports){
+var React = require("react");
+var GammaChart = require("./gammachart.js")
+
+var GammaBox = React.createClass({displayName: "GammaBox",
+    render: function(){
+        return(
+            React.createElement("div", {className: "row"}, 
+
+                React.createElement("div", {className: "col-sm-12"}, 
+                  React.createElement("div", {className: "chart-wrapper"}, 
+                    React.createElement("div", {className: "chart-title"}, 
+                      "Number of pull requests open and closed"
+                    ), 
+                    React.createElement("div", {className: "chart-stage"}, 
+                        React.createElement(GammaChart, null)
+                    ), 
+                    React.createElement("div", {className: "chart-notes"}, 
+                      "Select a specific day to get insights"
+                    )
+                  )
+                )
+                
+            )
+        );
+    }  
+ 
+});
+
+module.exports = GammaBox;
+
+},{"./gammachart.js":459,"react":449}],459:[function(require,module,exports){
+var React = require("react");
+var LineChart = require("react-chartjs").Line;
+var Chart = require("chart.js");
+
+function rand(min, max, num) {
+  var rtn = [];
+  while (rtn.length < num) {
+    rtn.push((Math.random() * (max - min)) + min);
+  }
+  return rtn;
+}
+
+var GammaChart = React.createClass({displayName: "GammaChart",
+  
+  chartOptions: {
+    ///Boolean - Whether grid lines are shown across the chart
+    scaleShowGridLines : true,
+    //String - Colour of the grid lines
+    scaleGridLineColor : "rgba(0,0,0,.05)",
+    //Number - Width of the grid lines
+    scaleGridLineWidth : 1,
+    //Boolean - Whether to show horizontal lines (except X axis)
+    scaleShowHorizontalLines: true,
+    //Boolean - Whether to show vertical lines (except Y axis)
+    scaleShowVerticalLines: true,
+    //Boolean - Whether the line is curved between points
+    bezierCurve : true,
+    //Number - Tension of the bezier curve between points
+    bezierCurveTension : 0.4,
+    //Boolean - Whether to show a dot for each point
+    pointDot : true,
+    //Number - Radius of each point dot in pixels
+    pointDotRadius : 4,
+    //Number - Pixel width of point dot stroke
+    pointDotStrokeWidth : 1,
+    //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+    pointHitDetectionRadius : 20,
+    //Boolean - Whether to show a stroke for datasets
+    datasetStroke : true,
+    //Number - Pixel width of dataset stroke
+    datasetStrokeWidth : 2,
+    //Boolean - Whether to fill the dataset with a colour
+    datasetFill : true,
+    //String - A legend template
+    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+
+  },
+  
+  chartData: {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [
+          {
+              label: "My First dataset",
+              fillColor: "rgba(220,220,220,0.2)",
+              strokeColor: "rgba(220,220,220,1)",
+              pointColor: "rgba(220,220,220,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,220,220,1)",
+              data: rand(32, 100, 7)
+          },
+          {
+              label: "My Second dataset",
+              fillColor: "rgba(151,187,205,0.2)",
+              strokeColor: "rgba(151,187,205,1)",
+              pointColor: "rgba(151,187,205,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(151,187,205,1)",
+              data: rand(32, 100, 7)
+          }
+        ]
+  },
+  
+  render: function() {
+    return React.createElement(LineChart, {data: this.chartData, options: this.chartOptions, style: {"height" : "300px", "width" : "100%"}});
+  }
+  
+});
+
+module.exports = GammaChart;
+
+},{"chart.js":2,"react":449,"react-chartjs":240}],460:[function(require,module,exports){
+var React = require("react");
+var AlphaBox = require("./alphabox.js");
+var BetaBox = require("./betabox.js");
+var GammaBox = require("./gammabox.js");
+var DeltaBox = require("./deltabox.js");
+
 
 var Dashboard = React.createClass({displayName: "Dashboard",
     render: function(){
         return(
             React.createElement("div", {className: "row"}, 
                 React.createElement("div", {className: "col-sm-12"}, 
-                    React.createElement(AlphaChart, null)
+                    React.createElement(AlphaBox, null)
+                ), 
+                React.createElement("div", {className: "row"}, 
+                    React.createElement("div", {className: "col-sm-12 col-md-3"}, 
+                        React.createElement(BetaBox, null)
+                    ), 
+                    React.createElement("div", {className: "col-sm-12 col-md-9"}, 
+                        React.createElement(GammaBox, null)
+                    ), 
+                    React.createElement("div", {className: "col-sm-12 col-md-12"}, 
+                        React.createElement(DeltaBox, null)
+                    )
                 )
             )
         );
@@ -41907,7 +42403,7 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 
 module.exports = Dashboard;
 
-},{"./alphachart.js":451,"react":449}],453:[function(require,module,exports){
+},{"./alphabox.js":451,"./betabox.js":453,"./deltabox.js":456,"./gammabox.js":458,"react":449}],461:[function(require,module,exports){
 var React = require("react");
 
 var ReactBootstrap = require('react-bootstrap'),
@@ -41946,11 +42442,179 @@ var Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{"react":449,"react-bootstrap":73}],454:[function(require,module,exports){
+},{"react":449,"react-bootstrap":73}],462:[function(require,module,exports){
 var App = require('./components/app.js');
 var React = require("react");
 var ReactDOM = require("react-dom")
 
 ReactDOM.render(React.createElement(App, null), document.getElementById('main'));
 
-},{"./components/app.js":450,"react":449,"react-dom":248}]},{},[454]);
+},{"./components/app.js":450,"react":449,"react-dom":248}],463:[function(require,module,exports){
+module.exports={
+  "allcohorts": "All students,Aviva Wolpert,Catherine Ducharme,Cyprien Grau,François Leclerc,Guillaume Boutin,Kayla Hennig,Karl Soulière-Crépeau,Marie-Eve Gauthier,Nathaniel Kitzke,Nora Top,Ulaize,Rod Whitfield,Ciara Boston,Aline Pearl,Ashlyn Eveland,Anette Paulhus,Chieko Donohue,Norris Archuleta,Precious Fishman,Jannet Wee,Ricki Scriber,Jae Mo,Keisha Losoya,Terica Calvo,Amalia Mosteller,Shirl Lage,Charmain July,Leif Barahona,Ivy Strohm,Linette Leech,Eugena Seldon,Major Auston,Sueann Blau,Monika Lessard,Meri Porch,Cathie Calvo,Sonny Varano,Sydney Wile,Luann Bruso,Han Hogue,Delena Hickok,Annabel Foucher,Carolee Harries,Paris Friddle,Boris Petrus,Jerrica Bouyer,Chester Chicoine,Audria Skow,Glinda Broome,Janessa Poulter,Magaret Schipper",
+  "cohort1": "All students,Aviva Wolpert,Catherine Ducharme,Cyprien Grau,François Leclerc,Guillaume Boutin,Kayla Hennig,Karl Soulière-Crépeau,Marie-Eve Gauthier,Nathaniel Kitzke,Nora Top,Ulaize",
+  "cohort2": "All students,Rod Whitfield,Ciara Boston,Aline Pearl,Ashlyn Eveland,Anette Paulhus,Chieko Donohue,Norris Archuleta,Precious Fishman,Jannet Wee,Ricki Scriber,Jae Mo,Keisha Losoya,Terica Calvo,Amalia Mosteller,Shirl Lage,Charmain July,Leif Barahona,Ivy Strohm,Linette Leech,Eugena Seldon",
+  "cohort3": "All students,Major Auston,Sueann Blau,Monika Lessard,Meri Porch,Cathie Calvo,Sonny Varano,Sydney Wile,Luann Bruso,Han Hogue,Delena Hickok,Annabel Foucher,Carolee Harries,Paris Friddle,Boris Petrus,Jerrica Bouyer,Chester Chicoine,Audria Skow,Glinda Broome,Janessa Poulter,Magaret Schipper"
+}
+},{}],464:[function(require,module,exports){
+module.exports=[{
+        "_id" : ObjectId("562954b8bc8bd5040b485366"),
+        "pullRequestId" : 48269267,
+        "action" : "closed",
+        "created_at" : "2015-10-20T23:01:14Z",
+        "updated_at" : "2015-10-20T23:05:44Z",
+        "closed_at" : "2015-10-20T23:05:44Z",
+        "baseUserName" : "Githubbers",
+        "baseUserId" : 15203246,
+        "baseRepoName" : "api-testing-repo",
+        "baseRepoId" : 44564367,
+        "headUserName" : "nk1tz",
+        "headUserId" : 12980165,
+        "headRepoName" : "api-testing-repo",
+        "headRepoId" : 44639767
+},
+{
+        "_id" : ObjectId("562954b8bc8bd5040b485367"),
+        "pullRequestId" : 48269267,
+        "action" : "reopened",
+        "created_at" : "2015-10-20T23:01:14Z",
+        "updated_at" : "2015-10-20T23:05:43Z",
+        "closed_at" : null,
+        "baseUserName" : "Githubbers",
+        "baseUserId" : 15203246,
+        "baseRepoName" : "api-testing-repo",
+        "baseRepoId" : 44564367,
+        "headUserName" : "nk1tz",
+        "headUserId" : 12980165,
+        "headRepoName" : "api-testing-repo",
+        "headRepoId" : 44639767
+},
+{
+        "_id" : ObjectId("562954b8bc8bd5040b485368"),
+        "pullRequestId" : 48269267,
+        "action" : "closed",
+        "created_at" : "2015-10-20T23:01:14Z",
+        "updated_at" : "2015-10-20T23:03:57Z",
+        "closed_at" : "2015-10-20T23:03:57Z",
+        "baseUserName" : "Githubbers",
+        "baseUserId" : 15203246,
+        "baseRepoName" : "api-testing-repo",
+        "baseRepoId" : 44564367,
+        "headUserName" : "nk1tz",
+        "headUserId" : 12980165,
+        "headRepoName" : "api-testing-repo",
+        "headRepoId" : 44639767
+},
+{
+        "_id" : ObjectId("562954b8bc8bd5040b485369"),
+        "pullRequestId" : 48269267,
+        "action" : "reopened",
+        "created_at" : "2015-10-20T23:01:14Z",
+        "updated_at" : "2015-10-20T23:03:55Z",
+        "closed_at" : null,
+        "baseUserName" : "Githubbers",
+        "baseUserId" : 15203246,
+        "baseRepoName" : "api-testing-repo",
+        "baseRepoId" : 44564367,
+        "headUserName" : "nk1tz",
+        "headUserId" : 12980165,
+        "headRepoName" : "api-testing-repo",
+        "headRepoId" : 44639767
+},
+{
+        "_id" : ObjectId("562954b8bc8bd5040b48536a"),
+        "pullRequestId" : 48269267,
+        "action" : "closed",
+        "created_at" : "2015-10-20T23:01:14Z",
+        "updated_at" : "2015-10-20T23:03:49Z",
+        "closed_at" : "2015-10-20T23:03:49Z",
+        "baseUserName" : "Githubbers",
+        "baseUserId" : 15203246,
+        "baseRepoName" : "api-testing-repo",
+        "baseRepoId" : 44564367,
+        "headUserName" : "nk1tz",
+        "headUserId" : 12980165,
+        "headRepoName" : "api-testing-repo",
+        "headRepoId" : 44639767
+},
+{
+        "_id" : ObjectId("562954b8bc8bd5040b48536b"),
+        "pullRequestId" : 48269267,
+        "action" : "opened",
+        "created_at" : "2015-10-20T23:01:14Z",
+        "updated_at" : "2015-10-20T23:01:14Z",
+        "closed_at" : null,
+        "baseUserName" : "Githubbers",
+        "baseUserId" : 15203246,
+        "baseRepoName" : "api-testing-repo",
+        "baseRepoId" : 44564367,
+        "headUserName" : "nk1tz",
+        "headUserId" : 12980165,
+        "headRepoName" : "api-testing-repo",
+        "headRepoId" : 44639767
+},
+{
+        "_id" : ObjectId("562954b8bc8bd5040b48536c"),
+        "pullRequestId" : 48266444,
+        "action" : "opened",
+        "created_at" : "2015-10-20T22:27:59Z",
+        "updated_at" : "2015-10-20T22:28:00Z",
+        "closed_at" : null,
+        "baseUserName" : "Githubbers",
+        "baseUserId" : 15203246,
+        "baseRepoName" : "api-testing-repo",
+        "baseRepoId" : 44564367,
+        "headUserName" : "guillaume-boutin",
+        "headUserId" : 11053874,
+        "headRepoName" : "api-testing-repo",
+        "headRepoId" : 44637245
+},
+{
+        "_id" : ObjectId("562954b8bc8bd5040b48536d"),
+        "pullRequestId" : 48261350,
+        "action" : "opened",
+        "created_at" : "2015-10-20T21:36:14Z",
+        "updated_at" : "2015-10-20T21:36:14Z",
+        "closed_at" : null,
+        "baseUserName" : "Githubbers",
+        "baseUserId" : 15203246,
+        "baseRepoName" : "project-alpha",
+        "baseRepoId" : 44565076,
+        "headUserName" : "guillaume-boutin",
+        "headUserId" : 11053874,
+        "headRepoName" : "project-alpha",
+        "headRepoId" : 44634338
+},
+{
+        "_id" : ObjectId("562954b8bc8bd5040b48536e"),
+        "pullRequestId" : 48206784,
+        "action" : "reopened",
+        "created_at" : "2015-10-20T14:18:02Z",
+        "updated_at" : "2015-10-20T21:06:12Z",
+        "closed_at" : null,
+        "baseUserName" : "Githubbers",
+        "baseUserId" : 15203246,
+        "baseRepoName" : "project-alpha",
+        "baseRepoId" : 44565076,
+        "headUserName" : "nk1tz",
+        "headUserId" : 12980165,
+        "headRepoName" : "project-alpha",
+        "headRepoId" : 44565471
+},
+{
+        "_id" : ObjectId("562954b8bc8bd5040b48536f"),
+        "pullRequestId" : 48206784,
+        "action" : "reopened",
+        "created_at" : "2015-10-20T14:18:02Z",
+        "updated_at" : "2015-10-20T21:06:12Z",
+        "closed_at" : null,
+        "baseUserName" : "Githubbers",
+        "baseUserId" : 15203246,
+        "baseRepoName" : "project-alpha",
+        "baseRepoId" : 44565076,
+        "headUserName" : "nk1tz",
+        "headUserId" : 12980165,
+        "headRepoName" : "project-alpha",
+        "headRepoId" : 44565471
+}]
+},{}]},{},[462]);

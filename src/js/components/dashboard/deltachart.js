@@ -1,7 +1,6 @@
 var React = require("react");
 var LineChart = require("react-chartjs").Line;
 var Chart = require("chart.js");
-var theData = require("../../../thedata.js");
 
 function rand(min, max, num) {
   var rtn = [];
@@ -11,7 +10,7 @@ function rand(min, max, num) {
   return rtn;
 }
 
-var AlphaChart = React.createClass({
+var DeltaChart = React.createClass({
   
   chartOptions: {
     ///Boolean - Whether grid lines are shown across the chart
@@ -48,35 +47,35 @@ var AlphaChart = React.createClass({
   },
   
   chartData: {
-        labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October", "Novembre", "December"],
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
         datasets: [
           {
-              label: "Open Pull Requests",
+              label: "My First dataset",
               fillColor: "rgba(220,220,220,0.2)",
               strokeColor: "rgba(220,220,220,1)",
               pointColor: "rgba(220,220,220,1)",
               pointStrokeColor: "#fff",
               pointHighlightFill: "#fff",
               pointHighlightStroke: "rgba(220,220,220,1)",
-              data: rand(32, 100, 12)
+              data: rand(32, 100, 7)
           },
           {
-              label: "Closed Pull Requests",
+              label: "My Second dataset",
               fillColor: "rgba(151,187,205,0.2)",
               strokeColor: "rgba(151,187,205,1)",
               pointColor: "rgba(151,187,205,1)",
               pointStrokeColor: "#fff",
               pointHighlightFill: "#fff",
               pointHighlightStroke: "rgba(151,187,205,1)",
-              data: rand(32, 100, 12)
+              data: rand(32, 100, 7)
           }
         ]
   },
   
   render: function() {
-    return <LineChart data={this.chartData} options={this.chartOptions} style={{"height" : "400px", "width" : "100%"}} />;
+    return <LineChart data={this.chartData} options={this.chartOptions} style={{"height" : "300px", "width" : "100%"}} />;
   }
   
 });
 
-module.exports = AlphaChart;
+module.exports = DeltaChart;
