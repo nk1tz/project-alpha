@@ -22,19 +22,19 @@ var Selectors = React.createClass({
     update: function(e){
         console.log(e.target.value);
         switch (e.target.value) {
-          case 'allcohorts':
-            this.setState( {persons: allCohorts });
-            return;
-          case 'cohort1':
-            this.setState( {persons: cohort1 });
-            return;
-          case 'cohort2':
-            this.setState( {persons: cohort2 });
-            return;
-          case 'cohort3':
-            this.setState( {persons: cohort3 });
-            return;
-        }
+                  case 'allcohorts':
+                    this.setState( {persons: allCohorts });
+                    return;
+                  case 'cohort1':
+                    this.setState( {persons: cohort1 });
+                    return;
+                  case 'cohort2':
+                    this.setState( {persons: cohort2 });
+                    return;
+                  case 'cohort3':
+                    this.setState( {persons: cohort3 });
+                    return;
+                }
     },
     
     render: function(){
@@ -134,4 +134,3 @@ var TimeRangeSelector = React.createClass({
 
 
 module.exports = Selectors;
-
