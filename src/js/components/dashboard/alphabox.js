@@ -1,10 +1,6 @@
 var React = require("react");
 var AlphaChart = require("./alphachart.js");
 var Selectors = require("./data-selectors");
-var TeamSelector = Selectors.Team;
-var PersonSelector = Selectors.Person;
-var StartDateSelector = Selectors.StartDate;
-var TimeRangeSelector = Selectors.TimeRange;
 
 var AlphaBox = React.createClass({
     render: function(){
@@ -16,10 +12,7 @@ var AlphaBox = React.createClass({
                     <div className="chart-title">
                       Number of pull requests open and closed
                       <small className="pull-right">
-                        <TeamSelector />
-                        <PersonSelector />
-                        <StartDateSelector />
-                        <TimeRangeSelector />
+                        <Selectors />
                       </small>
                     </div>
                     <div className="chart-stage">

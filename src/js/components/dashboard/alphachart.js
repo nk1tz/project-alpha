@@ -1,7 +1,7 @@
 var React = require("react");
 var LineChart = require("react-chartjs").Line;
 var Chart = require("chart.js");
-var theData = require("../../../thedata.js");
+// var theData = require("../../../thedata.js");
 
 function rand(min, max, num) {
   var rtn = [];
@@ -12,7 +12,7 @@ function rand(min, max, num) {
 }
 
 var AlphaChart = React.createClass({
-  
+    
   chartOptions: {
     ///Boolean - Whether grid lines are shown across the chart
     scaleShowGridLines : true,

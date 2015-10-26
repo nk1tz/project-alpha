@@ -41788,10 +41788,6 @@ module.exports = App;
 var React = require("react");
 var AlphaChart = require("./alphachart.js");
 var Selectors = require("./data-selectors");
-var TeamSelector = Selectors.Team;
-var PersonSelector = Selectors.Person;
-var StartDateSelector = Selectors.StartDate;
-var TimeRangeSelector = Selectors.TimeRange;
 
 var AlphaBox = React.createClass({displayName: "AlphaBox",
     render: function(){
@@ -41803,10 +41799,7 @@ var AlphaBox = React.createClass({displayName: "AlphaBox",
                     React.createElement("div", {className: "chart-title"}, 
                       "Number of pull requests open and closed", 
                       React.createElement("small", {className: "pull-right"}, 
-                        React.createElement(TeamSelector, null), 
-                        React.createElement(PersonSelector, null), 
-                        React.createElement(StartDateSelector, null), 
-                        React.createElement(TimeRangeSelector, null)
+                        React.createElement(Selectors, null)
                       )
                     ), 
                     React.createElement("div", {className: "chart-stage"}, 
@@ -41830,7 +41823,7 @@ module.exports = AlphaBox;
 var React = require("react");
 var LineChart = require("react-chartjs").Line;
 var Chart = require("chart.js");
-var theData = require("../../../thedata.json");
+// var theData = require("../../../thedata.js");
 
 function rand(min, max, num) {
   var rtn = [];
@@ -41841,7 +41834,7 @@ function rand(min, max, num) {
 }
 
 var AlphaChart = React.createClass({displayName: "AlphaChart",
-  
+    
   chartOptions: {
     ///Boolean - Whether grid lines are shown across the chart
     scaleShowGridLines : true,
@@ -41880,7 +41873,7 @@ var AlphaChart = React.createClass({displayName: "AlphaChart",
         labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October", "Novembre", "December"],
         datasets: [
           {
-              label: "My First dataset",
+              label: "Open Pull Requests",
               fillColor: "rgba(220,220,220,0.2)",
               strokeColor: "rgba(220,220,220,1)",
               pointColor: "rgba(220,220,220,1)",
@@ -41890,7 +41883,7 @@ var AlphaChart = React.createClass({displayName: "AlphaChart",
               data: rand(32, 100, 12)
           },
           {
-              label: "My Second dataset",
+              label: "Closed Pull Requests",
               fillColor: "rgba(151,187,205,0.2)",
               strokeColor: "rgba(151,187,205,1)",
               pointColor: "rgba(151,187,205,1)",
@@ -41910,7 +41903,7 @@ var AlphaChart = React.createClass({displayName: "AlphaChart",
 
 module.exports = AlphaChart;
 
-},{"../../../thedata.json":464,"chart.js":2,"react":449,"react-chartjs":240}],453:[function(require,module,exports){
+},{"chart.js":2,"react":449,"react-chartjs":240}],453:[function(require,module,exports){
 var React = require("react");
 var BetaChart = require("./betachart.js")
 
@@ -42028,69 +42021,95 @@ module.exports = BetaChart;
 var React = require("react");
 var teamData = require("../../../teamdata.json")
 
+var allCohorts = teamData.allcohorts.split(",");
+var cohort1 = teamData.cohort1.split(",");
+var cohort2 = teamData.cohort2.split(",");
+var cohort3 = teamData.cohort3.split(",");
+
+
+
+
+var Selectors = React.createClass({displayName: "Selectors",
+    
+    getInitialState: function(){
+        return {persons: allCohorts};
+    },
+    
+    componentDidMount: function(){
+        console.log(this.state);
+    },
+    
+    update: function(e){
+        console.log(e.target.value);
+        switch (e.target.value) {
+          case 'allcohorts':
+            this.setState( {persons: allCohorts });
+            return;
+          case 'cohort1':
+            this.setState( {persons: cohort1 });
+            return;
+          case 'cohort2':
+            this.setState( {persons: cohort2 });
+            return;
+          case 'cohort3':
+            this.setState( {persons: cohort3 });
+            return;
+        }
+    },
+    
+    render: function(){
+        return(
+            React.createElement("div", null, 
+                React.createElement(TeamSelector, {update: this.update}), 
+                React.createElement(PersonSelector, {choices: this.state.persons}), 
+                React.createElement(StartDateSelector, null), 
+                React.createElement(TimeRangeSelector, null)
+            )
+        );
+    }
+    
+});
 
 var TeamSelector = React.createClass({displayName: "TeamSelector",
     render: function(){
         return(
             React.createElement("label", {className: "pull-left"}, 
               "Team:", 
-              React.createElement("select", {id: "first-choice"}, 
-                React.createElement("option", {selected: true, value: "base"}, "Select"), 
+              React.createElement("select", {id: "first-choice", onChange: this.props.update}, 
                 React.createElement("option", {value: "allcohorts"}, "All cohorts"), 
-                React.createElement("option", {value: "cohort1"}, "Cohort-1"), 
-                React.createElement("option", {value: "cohort2"}, "Cohort-2"), 
-                React.createElement("option", {value: "cohort3"}, "Cohort-3")
+                React.createElement("option", {value: "cohort1"}, "Cohort 1"), 
+                React.createElement("option", {value: "cohort2"}, "Cohort 2"), 
+                React.createElement("option", {value: "cohort3"}, "Cohort 3")
               )
             )
         );
     }  
 });
 
-// <script>
-//             $("#first-choice").change(function() {
-//               var $dropdown = $(this);
-
-//               $.getJSON("data.json", function(data) {
-
-//                 var key = $dropdown.val();
-//                 var vals = [];
-
-//                 switch (key) {
-//                   case 'allcohorts':
-//                     vals = data.allcohorts.split(",");
-//                     break;
-//                   case 'cohort1':
-//                     vals = data.cohort1.split(",");
-//                     break;
-//                   case 'cohort2':
-//                     vals = data.cohort2.split(",");
-//                     break;
-//                   case 'cohort3':
-//                     vals = data.cohort3.split(",");
-//                     break;
-//                   case 'base':
-//                     vals = ['Please choose a team'];
-//                 }
-
-//                 var $secondChoice = $("#second-choice");
-//                 $secondChoice.empty();
-//                 $.each(vals, function(index, value) {
-//                   $secondChoice.append("<option>" + value + "</option>");
-//                 });
-
-//               });
-//             });
-//           </script>
-
 
 var PersonSelector = React.createClass({displayName: "PersonSelector",
+    
+    getIntialState: function(){
+        console.log(this.props.choices);
+        return this.props;    
+    },
+    
+    componentDidUpdate: function(){
+        console.log(this.props.choices);    
+    },
+    
     render: function(){
         return(
             React.createElement("label", null, 
-              "Person:", 
-              React.createElement("select", {id: "second-choice"}, 
-                React.createElement("option", {value: "base"}, "Select"), 
+                "Person:", 
+                React.createElement("select", {id: "second-choice"}, 
                 React.createElement("option", {value: "all"}, "Everyone"), 
+                
+                    this.props.choices.map(function(val){
+                        return React.createElement("option", {value: val}, val);
+                    }), 
+                    
+                
                 React.createElement("option", {value: "allstudents"}, "All students"), 
                 React.createElement("option", {value: "allstaff"}, "All staff")
               )
@@ -42134,12 +42153,7 @@ var TimeRangeSelector = React.createClass({displayName: "TimeRangeSelector",
 });
 
 
-module.exports = {
-    Team: TeamSelector,
-    Person: PersonSelector,
-    StartDate: StartDateSelector,
-    TimeRange: TimeRangeSelector
-};
+module.exports = Selectors;
 
 },{"../../../teamdata.json":463,"react":449}],456:[function(require,module,exports){
 var React = require("react");
@@ -42451,170 +42465,9 @@ ReactDOM.render(React.createElement(App, null), document.getElementById('main'))
 
 },{"./components/app.js":450,"react":449,"react-dom":248}],463:[function(require,module,exports){
 module.exports={
-  "allcohorts": "All students,Aviva Wolpert,Catherine Ducharme,Cyprien Grau,François Leclerc,Guillaume Boutin,Kayla Hennig,Karl Soulière-Crépeau,Marie-Eve Gauthier,Nathaniel Kitzke,Nora Top,Ulaize,Rod Whitfield,Ciara Boston,Aline Pearl,Ashlyn Eveland,Anette Paulhus,Chieko Donohue,Norris Archuleta,Precious Fishman,Jannet Wee,Ricki Scriber,Jae Mo,Keisha Losoya,Terica Calvo,Amalia Mosteller,Shirl Lage,Charmain July,Leif Barahona,Ivy Strohm,Linette Leech,Eugena Seldon,Major Auston,Sueann Blau,Monika Lessard,Meri Porch,Cathie Calvo,Sonny Varano,Sydney Wile,Luann Bruso,Han Hogue,Delena Hickok,Annabel Foucher,Carolee Harries,Paris Friddle,Boris Petrus,Jerrica Bouyer,Chester Chicoine,Audria Skow,Glinda Broome,Janessa Poulter,Magaret Schipper",
-  "cohort1": "All students,Aviva Wolpert,Catherine Ducharme,Cyprien Grau,François Leclerc,Guillaume Boutin,Kayla Hennig,Karl Soulière-Crépeau,Marie-Eve Gauthier,Nathaniel Kitzke,Nora Top,Ulaize",
-  "cohort2": "All students,Rod Whitfield,Ciara Boston,Aline Pearl,Ashlyn Eveland,Anette Paulhus,Chieko Donohue,Norris Archuleta,Precious Fishman,Jannet Wee,Ricki Scriber,Jae Mo,Keisha Losoya,Terica Calvo,Amalia Mosteller,Shirl Lage,Charmain July,Leif Barahona,Ivy Strohm,Linette Leech,Eugena Seldon",
-  "cohort3": "All students,Major Auston,Sueann Blau,Monika Lessard,Meri Porch,Cathie Calvo,Sonny Varano,Sydney Wile,Luann Bruso,Han Hogue,Delena Hickok,Annabel Foucher,Carolee Harries,Paris Friddle,Boris Petrus,Jerrica Bouyer,Chester Chicoine,Audria Skow,Glinda Broome,Janessa Poulter,Magaret Schipper"
+  "allcohorts": "Aviva Wolpert,Catherine Ducharme,Cyprien Grau,François Leclerc,Guillaume Boutin,Kayla Hennig,Karl Soulière-Crépeau,Marie-Eve Gauthier,Nathaniel Kitzke,Nora Top,Ulaize,Rod Whitfield,Ciara Boston,Aline Pearl,Ashlyn Eveland,Anette Paulhus,Chieko Donohue,Norris Archuleta,Precious Fishman,Jannet Wee,Ricki Scriber,Jae Mo,Keisha Losoya,Terica Calvo,Amalia Mosteller,Shirl Lage,Charmain July,Leif Barahona,Ivy Strohm,Linette Leech,Eugena Seldon,Major Auston,Sueann Blau,Monika Lessard,Meri Porch,Cathie Calvo,Sonny Varano,Sydney Wile,Luann Bruso,Han Hogue,Delena Hickok,Annabel Foucher,Carolee Harries,Paris Friddle,Boris Petrus,Jerrica Bouyer,Chester Chicoine,Audria Skow,Glinda Broome,Janessa Poulter,Magaret Schipper",
+  "cohort1": "Aviva Wolpert,Catherine Ducharme,Cyprien Grau,François Leclerc,Guillaume Boutin,Kayla Hennig,Karl Soulière-Crépeau,Marie-Eve Gauthier,Nathaniel Kitzke,Nora Top,Ulaize",
+  "cohort2": "Rod Whitfield,Ciara Boston,Aline Pearl,Ashlyn Eveland,Anette Paulhus,Chieko Donohue,Norris Archuleta,Precious Fishman,Jannet Wee,Ricki Scriber,Jae Mo,Keisha Losoya,Terica Calvo,Amalia Mosteller,Shirl Lage,Charmain July,Leif Barahona,Ivy Strohm,Linette Leech,Eugena Seldon",
+  "cohort3": "Major Auston,Sueann Blau,Monika Lessard,Meri Porch,Cathie Calvo,Sonny Varano,Sydney Wile,Luann Bruso,Han Hogue,Delena Hickok,Annabel Foucher,Carolee Harries,Paris Friddle,Boris Petrus,Jerrica Bouyer,Chester Chicoine,Audria Skow,Glinda Broome,Janessa Poulter,Magaret Schipper"
 }
-},{}],464:[function(require,module,exports){
-module.exports=[{
-        "_id" : ObjectId("562954b8bc8bd5040b485366"),
-        "pullRequestId" : 48269267,
-        "action" : "closed",
-        "created_at" : "2015-10-20T23:01:14Z",
-        "updated_at" : "2015-10-20T23:05:44Z",
-        "closed_at" : "2015-10-20T23:05:44Z",
-        "baseUserName" : "Githubbers",
-        "baseUserId" : 15203246,
-        "baseRepoName" : "api-testing-repo",
-        "baseRepoId" : 44564367,
-        "headUserName" : "nk1tz",
-        "headUserId" : 12980165,
-        "headRepoName" : "api-testing-repo",
-        "headRepoId" : 44639767
-},
-{
-        "_id" : ObjectId("562954b8bc8bd5040b485367"),
-        "pullRequestId" : 48269267,
-        "action" : "reopened",
-        "created_at" : "2015-10-20T23:01:14Z",
-        "updated_at" : "2015-10-20T23:05:43Z",
-        "closed_at" : null,
-        "baseUserName" : "Githubbers",
-        "baseUserId" : 15203246,
-        "baseRepoName" : "api-testing-repo",
-        "baseRepoId" : 44564367,
-        "headUserName" : "nk1tz",
-        "headUserId" : 12980165,
-        "headRepoName" : "api-testing-repo",
-        "headRepoId" : 44639767
-},
-{
-        "_id" : ObjectId("562954b8bc8bd5040b485368"),
-        "pullRequestId" : 48269267,
-        "action" : "closed",
-        "created_at" : "2015-10-20T23:01:14Z",
-        "updated_at" : "2015-10-20T23:03:57Z",
-        "closed_at" : "2015-10-20T23:03:57Z",
-        "baseUserName" : "Githubbers",
-        "baseUserId" : 15203246,
-        "baseRepoName" : "api-testing-repo",
-        "baseRepoId" : 44564367,
-        "headUserName" : "nk1tz",
-        "headUserId" : 12980165,
-        "headRepoName" : "api-testing-repo",
-        "headRepoId" : 44639767
-},
-{
-        "_id" : ObjectId("562954b8bc8bd5040b485369"),
-        "pullRequestId" : 48269267,
-        "action" : "reopened",
-        "created_at" : "2015-10-20T23:01:14Z",
-        "updated_at" : "2015-10-20T23:03:55Z",
-        "closed_at" : null,
-        "baseUserName" : "Githubbers",
-        "baseUserId" : 15203246,
-        "baseRepoName" : "api-testing-repo",
-        "baseRepoId" : 44564367,
-        "headUserName" : "nk1tz",
-        "headUserId" : 12980165,
-        "headRepoName" : "api-testing-repo",
-        "headRepoId" : 44639767
-},
-{
-        "_id" : ObjectId("562954b8bc8bd5040b48536a"),
-        "pullRequestId" : 48269267,
-        "action" : "closed",
-        "created_at" : "2015-10-20T23:01:14Z",
-        "updated_at" : "2015-10-20T23:03:49Z",
-        "closed_at" : "2015-10-20T23:03:49Z",
-        "baseUserName" : "Githubbers",
-        "baseUserId" : 15203246,
-        "baseRepoName" : "api-testing-repo",
-        "baseRepoId" : 44564367,
-        "headUserName" : "nk1tz",
-        "headUserId" : 12980165,
-        "headRepoName" : "api-testing-repo",
-        "headRepoId" : 44639767
-},
-{
-        "_id" : ObjectId("562954b8bc8bd5040b48536b"),
-        "pullRequestId" : 48269267,
-        "action" : "opened",
-        "created_at" : "2015-10-20T23:01:14Z",
-        "updated_at" : "2015-10-20T23:01:14Z",
-        "closed_at" : null,
-        "baseUserName" : "Githubbers",
-        "baseUserId" : 15203246,
-        "baseRepoName" : "api-testing-repo",
-        "baseRepoId" : 44564367,
-        "headUserName" : "nk1tz",
-        "headUserId" : 12980165,
-        "headRepoName" : "api-testing-repo",
-        "headRepoId" : 44639767
-},
-{
-        "_id" : ObjectId("562954b8bc8bd5040b48536c"),
-        "pullRequestId" : 48266444,
-        "action" : "opened",
-        "created_at" : "2015-10-20T22:27:59Z",
-        "updated_at" : "2015-10-20T22:28:00Z",
-        "closed_at" : null,
-        "baseUserName" : "Githubbers",
-        "baseUserId" : 15203246,
-        "baseRepoName" : "api-testing-repo",
-        "baseRepoId" : 44564367,
-        "headUserName" : "guillaume-boutin",
-        "headUserId" : 11053874,
-        "headRepoName" : "api-testing-repo",
-        "headRepoId" : 44637245
-},
-{
-        "_id" : ObjectId("562954b8bc8bd5040b48536d"),
-        "pullRequestId" : 48261350,
-        "action" : "opened",
-        "created_at" : "2015-10-20T21:36:14Z",
-        "updated_at" : "2015-10-20T21:36:14Z",
-        "closed_at" : null,
-        "baseUserName" : "Githubbers",
-        "baseUserId" : 15203246,
-        "baseRepoName" : "project-alpha",
-        "baseRepoId" : 44565076,
-        "headUserName" : "guillaume-boutin",
-        "headUserId" : 11053874,
-        "headRepoName" : "project-alpha",
-        "headRepoId" : 44634338
-},
-{
-        "_id" : ObjectId("562954b8bc8bd5040b48536e"),
-        "pullRequestId" : 48206784,
-        "action" : "reopened",
-        "created_at" : "2015-10-20T14:18:02Z",
-        "updated_at" : "2015-10-20T21:06:12Z",
-        "closed_at" : null,
-        "baseUserName" : "Githubbers",
-        "baseUserId" : 15203246,
-        "baseRepoName" : "project-alpha",
-        "baseRepoId" : 44565076,
-        "headUserName" : "nk1tz",
-        "headUserId" : 12980165,
-        "headRepoName" : "project-alpha",
-        "headRepoId" : 44565471
-},
-{
-        "_id" : ObjectId("562954b8bc8bd5040b48536f"),
-        "pullRequestId" : 48206784,
-        "action" : "reopened",
-        "created_at" : "2015-10-20T14:18:02Z",
-        "updated_at" : "2015-10-20T21:06:12Z",
-        "closed_at" : null,
-        "baseUserName" : "Githubbers",
-        "baseUserId" : 15203246,
-        "baseRepoName" : "project-alpha",
-        "baseRepoId" : 44565076,
-        "headUserName" : "nk1tz",
-        "headUserId" : 12980165,
-        "headRepoName" : "project-alpha",
-        "headRepoId" : 44565471
-}]
 },{}]},{},[462]);

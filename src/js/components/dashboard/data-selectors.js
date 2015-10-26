@@ -1,69 +1,95 @@
 var React = require("react");
 var teamData = require("../../../teamdata.json")
 
+var allCohorts = teamData.allcohorts.split(",");
+var cohort1 = teamData.cohort1.split(",");
+var cohort2 = teamData.cohort2.split(",");
+var cohort3 = teamData.cohort3.split(",");
+
+
+
+
+var Selectors = React.createClass({
+    
+    getInitialState: function(){
+        return {persons: allCohorts};
+    },
+    
+    componentDidMount: function(){
+        console.log(this.state);
+    },
+    
+    update: function(e){
+        console.log(e.target.value);
+        switch (e.target.value) {
+          case 'allcohorts':
+            this.setState( {persons: allCohorts });
+            return;
+          case 'cohort1':
+            this.setState( {persons: cohort1 });
+            return;
+          case 'cohort2':
+            this.setState( {persons: cohort2 });
+            return;
+          case 'cohort3':
+            this.setState( {persons: cohort3 });
+            return;
+        }
+    },
+    
+    render: function(){
+        return(
+            <div>
+                <TeamSelector update={this.update} />
+                <PersonSelector choices={this.state.persons} />
+                <StartDateSelector />
+                <TimeRangeSelector />
+            </div>
+        );
+    }
+    
+});
 
 var TeamSelector = React.createClass({
     render: function(){
         return(
             <label className="pull-left">
               Team:
-              <select id="first-choice">
-                <option selected value="base">Select</option>
+              <select id="first-choice" onChange={this.props.update}>
                 <option value="allcohorts">All cohorts</option>
-                <option value="cohort1">Cohort-1</option>
-                <option value="cohort2">Cohort-2</option>
-                <option value="cohort3">Cohort-3</option>
+                <option value="cohort1">Cohort 1</option>
+                <option value="cohort2">Cohort 2</option>
+                <option value="cohort3">Cohort 3</option>
               </select>
             </label>
         );
     }  
 });
 
-// <script>
-//             $("#first-choice").change(function() {
-//               var $dropdown = $(this);
-
-//               $.getJSON("data.json", function(data) {
-
-//                 var key = $dropdown.val();
-//                 var vals = [];
-
-//                 switch (key) {
-//                   case 'allcohorts':
-//                     vals = data.allcohorts.split(",");
-//                     break;
-//                   case 'cohort1':
-//                     vals = data.cohort1.split(",");
-//                     break;
-//                   case 'cohort2':
-//                     vals = data.cohort2.split(",");
-//                     break;
-//                   case 'cohort3':
-//                     vals = data.cohort3.split(",");
-//                     break;
-//                   case 'base':
-//                     vals = ['Please choose a team'];
-//                 }
-
-//                 var $secondChoice = $("#second-choice");
-//                 $secondChoice.empty();
-//                 $.each(vals, function(index, value) {
-//                   $secondChoice.append("<option>" + value + "</option>");
-//                 });
-
-//               });
-//             });
-//           </script>
-
 
 var PersonSelector = React.createClass({
+    
+    getIntialState: function(){
+        console.log(this.props.choices);
+        return this.props;    
+    },
+    
+    componentDidUpdate: function(){
+        console.log(this.props.choices);    
+    },
+    
     render: function(){
         return(
             <label>
-              Person:
-              <select id="second-choice">
-                <option value="base">Select</option>
+                Person:
+                <select id="second-choice">
                 <option value="all">Everyone</option>
+                {
+                    this.props.choices.map(function(val){
+                        return <option value={val}>{val}</option>;
+                    })
+                    
+                }
                 <option value="allstudents">All students</option>
                 <option value="allstaff">All staff</option>
               </select>
@@ -107,10 +133,5 @@ var TimeRangeSelector = React.createClass({
 });
 
 
-module.exports = {
-    Team: TeamSelector,
-    Person: PersonSelector,
-    StartDate: StartDateSelector,
-    TimeRange: TimeRangeSelector
-};
+module.exports = Selectors;
 
