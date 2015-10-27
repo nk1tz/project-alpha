@@ -66342,6 +66342,11 @@ var AlphaChart = require("./alphachart.js");
 var Selectors = require("./data-selectors");
 
 var AlphaBox = React.createClass({displayName: "AlphaBox",
+  
+  update: function(e){
+    
+  },
+  
     render: function(){
         return(
             React.createElement("div", {className: "row"}, 
@@ -66351,11 +66356,11 @@ var AlphaBox = React.createClass({displayName: "AlphaBox",
                     React.createElement("div", {className: "chart-title"}, 
                       "Number of pull requests open and closed", 
                       React.createElement("small", {className: "pull-right"}, 
-                        React.createElement(Selectors, null)
+                        React.createElement(Selectors, {update: this.update})
                       )
                     ), 
                     React.createElement("div", {className: "chart-stage"}, 
-                        React.createElement(AlphaChart, null)
+                        React.createElement(AlphaChart, {data: this.props.dataset})
                     ), 
                     React.createElement("div", {className: "chart-notes"}, 
                       "Select a specific day to get insights in th below sections."
@@ -66385,10 +66390,10 @@ var config = {
     selected: 1
   },
   title: {
-    text: 'AAPL Stock Price'
+    text: 'Open Pull Requests per Hour'
   },
   series: [{
-    name: 'AAPL',
+    name: 'OpenPRs',
     data: data,
     tooltip: {
       valueDecimals: 2
@@ -66618,12 +66623,7 @@ var Selectors = React.createClass({displayName: "Selectors",
         return {persons: allCohorts};
     },
     
-    componentDidMount: function(){
-        console.log(this.state);
-    },
-    
-    update: function(e){
-        console.log(e.target.value);
+    updateTeam: function(e){
         switch (e.target.value) {
                   case 'allcohorts':
                     this.setState( {persons: allCohorts });
@@ -66640,13 +66640,16 @@ var Selectors = React.createClass({displayName: "Selectors",
                 }
     },
     
+    updatePerson: function(e){
+        this.setState({dataSet: e.target.value });
+                  
+    },
+    
     render: function(){
         return(
             React.createElement("div", null, 
-                React.createElement(TeamSelector, {update: this.update}), 
-                React.createElement(PersonSelector, {choices: this.state.persons}), 
-                React.createElement(StartDateSelector, null), 
-                React.createElement(TimeRangeSelector, null)
+                React.createElement(TeamSelector, {update: this.updateTeam}), 
+                React.createElement(PersonSelector, {choices: this.state.persons, update: this.updatePerson, onChange: this.props.update})
             )
         );
     }
@@ -66673,19 +66676,15 @@ var TeamSelector = React.createClass({displayName: "TeamSelector",
 var PersonSelector = React.createClass({displayName: "PersonSelector",
     
     getIntialState: function(){
-        console.log(this.props.choices);
         return this.props;    
     },
     
-    componentDidUpdate: function(){
-        console.log(this.props.choices);    
-    },
     
     render: function(){
         return(
             React.createElement("label", null, 
                 "Person:", 
-                React.createElement("select", {id: "second-choice"}, 
+                React.createElement("select", {id: "second-choice", onChange: this.props.updatePerson}, 
                 React.createElement("option", {value: "all"}, "Everyone"), 
                 
                     this.props.choices.map(function(val){
@@ -66701,42 +66700,41 @@ var PersonSelector = React.createClass({displayName: "PersonSelector",
     }  
 });
 
-var StartDateSelector = React.createClass({displayName: "StartDateSelector",
-    render: function(){
-        return(
-            React.createElement("label", null, 
-              "Start Date:", 
-              React.createElement("select", {id: "third-choice"}, 
-                React.createElement("option", {value: "base"}, "Choose a start date")
-                
-              )
-            )
-        );
-    }  
-});
-
-var TimeRangeSelector = React.createClass({displayName: "TimeRangeSelector",
-    render: function(){
-        return(
-            React.createElement("label", null, 
-              "Time Range:", 
-              React.createElement("select", {id: "fourth-choice"}, 
-                React.createElement("option", {value: "base"}, "Select"), 
-                React.createElement("option", {value: "oneDay"}, "1 Day"), 
-                React.createElement("option", {value: "twoDay"}, "2 Days"), 
-                React.createElement("option", {value: "oneWeek"}, "1 Week"), 
-                React.createElement("option", {value: "twoWeek"}, "2 Weeks"), 
-                React.createElement("option", {value: "oneMonth"}, "1 Month"), 
-                React.createElement("option", {value: "twoMonth"}, "2 Months"), 
-                React.createElement("option", {value: "allTime"}, "All Time")
-              )
-            )
-        );
-    }  
-});
-
-
 module.exports = Selectors;
+
+// var StartDateSelector = React.createClass({
+//     render: function(){
+//         return(
+//             <label>
+//               Start Date:
+//               <select id="third-choice">
+//                 <option value="base">Choose a start date</option>
+                
+//               </select>
+//             </label>
+//         );
+//     }  
+// });
+
+// var TimeRangeSelector = React.createClass({
+//     render: function(){
+//         return(
+//             <label>
+//               Time Range:
+//               <select id="fourth-choice">
+//                 <option value="base">Select</option>
+//                 <option value="oneDay">1 Day</option>
+//                 <option value="twoDay">2 Days</option>
+//                 <option value="oneWeek">1 Week</option>
+//                 <option value="twoWeek">2 Weeks</option>
+//                 <option value="oneMonth">1 Month</option>
+//                 <option value="twoMonth">2 Months</option>
+//                 <option value="allTime">All Time</option>
+//               </select>
+//             </label>
+//         );
+//     }  
+// });
 
 },{"../../../teamdata.json":464,"react":450}],457:[function(require,module,exports){
 var React = require("react");

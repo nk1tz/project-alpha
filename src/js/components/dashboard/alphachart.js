@@ -11,10 +11,10 @@ var config = {
     selected: 1
   },
   title: {
-    text: 'AAPL Stock Price'
+    text: 'Open Pull Requests per Hour'
   },
   series: [{
-    name: 'AAPL',
+    name: 'OpenPRs',
     data: data,
     tooltip: {
       valueDecimals: 2

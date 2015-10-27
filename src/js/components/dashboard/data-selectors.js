@@ -12,38 +12,36 @@ var cohort3 = teamData.cohort3.split(",");
 var Selectors = React.createClass({
     
     getInitialState: function(){
-        return {persons: allCohorts};
+        return {teamSelected: allCohorts};
     },
     
-    componentDidMount: function(){
-        console.log(this.state);
-    },
-    
-    update: function(e){
-        console.log(e.target.value);
+    updateTeam: function(e){
         switch (e.target.value) {
                   case 'allcohorts':
-                    this.setState( {persons: allCohorts });
+                    this.setState( {teamSelected: allCohorts });
                     return;
                   case 'cohort1':
-                    this.setState( {persons: cohort1 });
+                    this.setState( {teamSelected: cohort1 });
                     return;
                   case 'cohort2':
-                    this.setState( {persons: cohort2 });
+                    this.setState( {teamSelected: cohort2 });
                     return;
                   case 'cohort3':
-                    this.setState( {persons: cohort3 });
+                    this.setState( {teamSelected: cohort3 });
                     return;
                 }
+    },
+    
+    updatePerson: function(e){
+        this.setState({person: e.target.value });
+                  
     },
     
     render: function(){
         return(
             <div>
-                <TeamSelector update={this.update} />
-                <PersonSelector choices={this.state.persons} />
-                <StartDateSelector />
-                <TimeRangeSelector />
+                <TeamSelector update={this.updateTeam} />
+                <PersonSelector choices={this.state.teamSelected} update={this.updatePerson} onChange={this.props.update} />
             </div>
         );
     }
@@ -70,19 +68,15 @@ var TeamSelector = React.createClass({
 var PersonSelector = React.createClass({
     
     getIntialState: function(){
-        console.log(this.props.choices);
         return this.props;    
     },
     
-    componentDidUpdate: function(){
-        console.log(this.props.choices);    
-    },
     
     render: function(){
         return(
             <label>
                 Person:
-                <select id="second-choice">
+                <select id="second-choice" onChange={this.props.updatePerson}>
                 <option value="all">Everyone</option>
                 {
                     this.props.choices.map(function(val){
@@ -98,39 +92,40 @@ var PersonSelector = React.createClass({
     }  
 });
 
-var StartDateSelector = React.createClass({
-    render: function(){
-        return(
-            <label>
-              Start Date:
-              <select id="third-choice">
-                <option value="base">Choose a start date</option>
-                
-              </select>
-            </label>
-        );
-    }  
-});
-
-var TimeRangeSelector = React.createClass({
-    render: function(){
-        return(
-            <label>
-              Time Range:
-              <select id="fourth-choice">
-                <option value="base">Select</option>
-                <option value="oneDay">1 Day</option>
-                <option value="twoDay">2 Days</option>
-                <option value="oneWeek">1 Week</option>
-                <option value="twoWeek">2 Weeks</option>
-                <option value="oneMonth">1 Month</option>
-                <option value="twoMonth">2 Months</option>
-                <option value="allTime">All Time</option>
-              </select>
-            </label>
-        );
-    }  
-});
-
-
 module.exports = Selectors;
+
+// var StartDateSelector = React.createClass({
+//     render: function(){
+//         return(
+//             <label>
+//               Start Date:
+//               <select id="third-choice">
+//                 <option value="base">Choose a start date</option>
+                
+//               </select>
+//             </label>
+//         );
+//     }  
+// });
+
+// var TimeRangeSelector = React.createClass({
+//     render: function(){
+//         return(
+//             <label>
+//               Time Range:
+//               <select id="fourth-choice">
+//                 <option value="base">Select</option>
+//                 <option value="oneDay">1 Day</option>
+//                 <option value="twoDay">2 Days</option>
+//                 <option value="oneWeek">1 Week</option>
+//                 <option value="twoWeek">2 Weeks</option>
+//                 <option value="oneMonth">1 Month</option>
+//                 <option value="twoMonth">2 Months</option>
+//                 <option value="allTime">All Time</option>
+//               </select>
+//             </label>
+//         );
+//     }  
+// });
+
+
