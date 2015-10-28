@@ -5,6 +5,7 @@ var PRdata = [];
 var timeZero = 1441584000000; //this is Septembre 7th 2015 1:00 am.
 var dataPoint = [];
 var p = 0;
+var pp = 0;
 
 function randomIntFromInterval(min,max)
 {
@@ -19,9 +20,10 @@ function fillPRData(){
                 p = randomIntFromInterval(0, Math.floor( Math.abs( Math.cos(i)*10 + 3 ) ) );
                 dataPoint = [ timeZero+(3600000*i) , p ];
                 PRdata.push(dataPoint);
+                pp = p;
                 i++;
             }else{
-                p = 0;
+                p = pp;
                 dataPoint = [ timeZero+(3600000*i) , p ];
                 PRdata.push(dataPoint);
                 i++;
@@ -30,6 +32,7 @@ function fillPRData(){
         p = randomIntFromInterval(0, Math.floor( Math.abs( Math.cos(i)*10 + 3 ) ) );
         dataPoint = [ timeZero+(3600000*i) , p ];
         PRdata.push(dataPoint);
+        pp = p;
     }
     return PRdata;
 }

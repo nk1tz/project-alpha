@@ -1,8 +1,11 @@
 var React = require("react");
-var BetaChart = require("./betachart.js")
+var BetaChart = require("./betachart.js");
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 var BetaBox = React.createClass({
+    mixins: [PureRenderMixin],
     render: function(){
+      console.log('hello from betabox: ' + this.props.min);
         return(
             <div className="row">
 

@@ -1,7 +1,9 @@
 var React = require("react");
-var GammaChart = require("./gammachart.js")
+var GammaChart = require("./gammachart.js");
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 var GammaBox = React.createClass({
+    mixins: [PureRenderMixin],
     render: function(){
         return(
             <div className="row">

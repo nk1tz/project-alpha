@@ -24,9 +24,45 @@ var config = {
 
 var AlphaChart = React.createClass({
   
+  _chartRedraw: function() {
+    this.props.onChange(this.getRange());
+  },
+  
+  getRange: function() {
+    var range = this.refs.stock.chart.rangeSelector;
+    return {
+      min: range.minInput.value,
+      max: range.maxInput.value
+    };
+  },
+  
   render: function() {
-    return <Highstock config={config} />;
+    config.chart = {
+      events: {
+                redraw: this._chartRedraw
+            }
+    };
+    config.series[0].data = this.props.dataSet;
+    
+    return <Highstock ref="stock" config={config} />;
   }
+  
+  // componentDidMount: function() {
+  //   var range = this.refs.stock.chart;
+  //   window.chart = range;
+    // range.minInput.addEventListener('change', this._chartChanged);
+    // range.maxInput.addEventListener('change', this._chartChanged);
+  // }
+  // componentDidUpdate: function() {
+  //   var range = this.refs.stock.chart.rangeSelector;
+  //   range.minInput.addEventListener('change', this._chartChanged);
+  //   range.maxInput.addEventListener('change', this._chartChanged);
+  // },
+  // componentWillUnmount: function() {
+  //   var range = this.refs.stock.chart.rangeSelector;
+  //   // range.minInput.removeEventListener('change', this._chartChanged);
+  //   // range.maxInput.removeEventListener('change', this._chartChanged);
+  // }
   
 });
 

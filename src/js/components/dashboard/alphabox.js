@@ -2,31 +2,44 @@ var React = require("react");
 var AlphaChart = require("./alphachart.js");
 var Selectors = require("./data-selectors");
 var dmtldata = require("../../../dmtldata/dmtldata.json");
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 var AlphaBox = React.createClass({
   
-  update: function(e){
-    console.log(e);
-  // this.setState( {chartData: dmtldata.dmtldata.cohort1.students.e.target.value.PRdata });
+  mixins: [PureRenderMixin],
+  
+  getInitialState: function(){
+    return {dataSet: dmtldata.dmtldata.Cohort1.students.Everyone.PRdata};
+  },
+  
+  _selectorsChanged: function(dataSelects){
+    console.log(dataSelects);
+    console.log(dmtldata.dmtldata[dataSelects.team].students[dataSelects.person].PRdata);
+    this.setState({dataSet: dmtldata.dmtldata[dataSelects.team].students[dataSelects.person].PRdata});
+  },
+  
+  _alphaChanged: function(newRange) {
+    this.props.onChange(newRange);
   },
   
     render: function(){
+      // console.log(dmtldata.dmtldata.Cohort1.students."Aviva Wolpert".PRdata);
         return(
             <div className="row">
-
+            
                 <div className="col-sm-12">
                   <div className="chart-wrapper">
                     <div className="chart-title">
                       Number of pull requests open and closed
                       <small className="pull-right">
-                        <Selectors update={this.update} />
+                        <Selectors onChange={this._selectorsChanged} />
                       </small>
                     </div>
                     <div className="chart-stage">
-                        <AlphaChart data={this.state.chartData} />
+                        <AlphaChart ref="chart" dataSet={this.state.dataSet} onChange={this._alphaChanged} />
                     </div>
                     <div className="chart-notes">
-                      Select a specific day to get insights in th below sections.
+                      Select a specific range to get insights in the below sections.
                     </div>
                   </div>
                 </div>

@@ -1,7 +1,9 @@
 var React = require("react");
 var DeltaChart = require("./deltachart.js")
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 var DeltaBox = React.createClass({
+  mixins: [PureRenderMixin],
     render: function(){
         return(
             <div className="row">
