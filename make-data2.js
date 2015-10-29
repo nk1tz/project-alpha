@@ -9,14 +9,14 @@ var dataPoint = [];
 var hourlySum = 0;
 var temp=[];
 
-var EveryonePRdata = [];
+var EveryoneCommentsData = [];
 
 function makeEveryoneData(){
     
     for (var i=0; i<1345; i++){
         for (var key in dmtldata.dmtldata.Cohort1.students) {
 
-            temp = dmtldata.dmtldata.Cohort1.students[key].PRdata;
+            temp = dmtldata.dmtldata.Cohort1.students[key].CommentsData;
             
             // console.log(temp[i][1] );
             
@@ -25,12 +25,12 @@ function makeEveryoneData(){
         }
         
         dataPoint = [ timeZero+(3600000*i) , hourlySum ];
-        EveryonePRdata.push(dataPoint);
+        EveryoneCommentsData.push(dataPoint);
         hourlySum = 0;
         console.log(dataPoint);
            
     }
-    return EveryonePRdata;
+    return EveryoneCommentsData;
     // console.log(EveryonePRdata);
 }
 

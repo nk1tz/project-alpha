@@ -16,20 +16,22 @@ var Header = React.createClass({
     
     render: function(){
         return (
-            <div className="navbar navbar-inverse" role="navigation">
-                <div className="container-fluid">
-                  <div className="navbar-header">
-                    <a className="navbar-brand" href="index.html">DecodeMTL - Github dashboard</a>
+            <div>
+                <div className="navbar navbar-inverse" role="navigation">
+                    <div className="container-fluid">
+                      <div className="navbar-header">
+                        <a className="navbar-brand" href="index.html">DecodeMTL - Github dashboard</a>
+                      </div>
+                      <div className="navbar-collapse collapse">
+                        <ul className="nav navbar-nav navbar-left">
+                          <li><a href="https://github.com/DecodeMTL">Repositories</a></li>
+                          <li><a href="https://github.com/orgs/DecodeMTL/people">Students</a></li>
+                          <li><a href="https://github.com/orgs/DecodeMTL/teams">Teams</a></li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                  <div className="navbar-collapse collapse">
-                    <ul className="nav navbar-nav navbar-left">
-                      <li><a href="https://github.com/DecodeMTL">Repositories</a></li>
-                      <li><a href="https://github.com/orgs/DecodeMTL/people">Students</a></li>
-                      <li><a href="https://github.com/orgs/DecodeMTL/teams">Teams</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+            </div>
         );
     }
 });

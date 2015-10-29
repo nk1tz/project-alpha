@@ -23,7 +23,7 @@ var Dashboard = React.createClass({
     },
      _alphaBoxChanged: _.debounce(function(newRange) {
          this.setState( {range: newRange} );
-     }, 500),
+     }, 400),
      
     _updateSelects: function(dataSelects){
         this.setState( {dataSelects: dataSelects});
@@ -31,18 +31,22 @@ var Dashboard = React.createClass({
     
     render: function(){
         return(
-            <div className="row">
-                <div className="col-sm-12">
-                    <AlphaBox onChange={this._alphaBoxChanged} updateSelects={this._updateSelects} />
+            <div>
+                <div className="row">
+                    <div className="col-sm-12">
+                        <AlphaBox onChange={this._alphaBoxChanged} updateSelects={this._updateSelects} />
+                    </div>
                 </div>
                 <div className="row">
                     <div className="col-sm-12 col-md-3">
                         <BetaBox range={this.state.range} dataSelects={this.state.dataSelects} />
                     </div>
                     <div className="col-sm-12 col-md-9">
-                        <GammaBox range={this.state.range} />
+                        <GammaBox range={this.state.range} dataSelects={this.state.dataSelects} />
                     </div>
-                    <div className="col-sm-12 col-md-12">
+                </div>
+                <div className="row">
+                    <div className="col-sm-12">
                         <DeltaBox range={this.state.range} />
                     </div>
                 </div>

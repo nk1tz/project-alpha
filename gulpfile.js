@@ -6,7 +6,7 @@ var source = require('vinyl-source-stream');
 var sass = require('gulp-sass');
 
 gulp.task('browserify', function() {
-   browserify('./src/js/main.js')
+   browserify({entries: './src/js/main.js', debug: true})
     .transform('reactify')
     .bundle()
     .pipe(source('main.js'))

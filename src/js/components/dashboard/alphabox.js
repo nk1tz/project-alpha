@@ -23,7 +23,7 @@ var AlphaBox = React.createClass({
   },
   
     render: function(){
-      // console.log(dmtldata.dmtldata.Cohort1.students."Aviva Wolpert".PRdata);
+
         return(
             <div className="row">
             
