@@ -39,7 +39,6 @@ var AlphaBox = React.createClass({
                         <AlphaChart ref="chart" dataSet={this.state.dataSet} onChange={this._alphaChanged} />
                     </div>
                     <div className="chart-notes">
-                      Select a specific range to get insights in the below sections.
                     </div>
                   </div>
                 </div>

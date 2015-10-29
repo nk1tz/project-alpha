@@ -11,13 +11,12 @@ var DeltaBox = React.createClass({
                 <div className="col-sm-12">
                   <div className="chart-wrapper">
                     <div className="chart-title">
-                      Number of pull requests open and closed
+                      Passes & Fails
                     </div>
                     <div className="chart-stage">
                         <DeltaChart />
                     </div>
                     <div className="chart-notes">
-                      Select a specific day to get insights
                     </div>
                   </div>
                 </div>

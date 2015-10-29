@@ -12,6 +12,9 @@
     width: 100%;
     height: 60vh;
 }
+body{
+  background: #171B1D;
+}
 
 
 /*
@@ -42,12 +45,12 @@ body.application hr {
 
 
 .navbar-inverse {
-  background-color: #3d4a57;
-  border-color: #333;
+  background-color: #000;
+  border-color: #000;
 }
 .navbar-inverse .navbar-nav > li > a,
 .navbar .navbar-brand {
-  color: #fbfbfb;
+  color: #33A9A7;
   text-decoration: none;
 }
 
@@ -64,14 +67,14 @@ body.application hr {
 }
 
 .chart-wrapper {
-  background: #fff;
-  border: 1px solid #e2e2e2;
-  border-radius: 3px;
+  background: black;
+  border: none;
+  border-radius: 15px;
   margin-bottom: 10px;
 }
 .chart-wrapper .chart-title {
-  border-bottom: 1px solid #d7d7d7;
-  color: #666;
+  border-bottom: 1px solid #9077CC;
+  color: #9077CC;
   font-size: 14px;
   font-weight: 200;
   padding: 7px 10px 4px;
@@ -85,10 +88,26 @@ body.application hr {
 }
 
 .chart-wrapper .chart-notes {
-  background: #fbfbfb;
-  border-top: 1px solid #e2e2e2;
-  color: #808080;
+  // background: #fbfbfb;
+  border-top: 1px solid #9077CC;
+  color: #9077CC;
   font-size: 12px;
   padding: 8px 10px 5px;
 }
 
+
+
+
+
+.highcharts-background {
+    fill: inherit;
+}
+
+#first-choice{
+  
+  background-color:black;
+}
+
+#second-choice{
+  background-color:black;
+}

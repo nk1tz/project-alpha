@@ -5,7 +5,7 @@ var Chart = require("chart.js");
 function rand(min, max, num) {
   var rtn = [];
   while (rtn.length < num) {
-    rtn.push((Math.random() * (max - min)) + min);
+    rtn.push(Math.floor((Math.random() * (max - min)) + min));
   }
   return rtn;
 }
@@ -47,27 +47,27 @@ var DeltaChart = React.createClass({
   },
   
   chartData: {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        labels: ["",'','','','',"",'','','','',"",'','','','',"",'','','',''],
         datasets: [
           {
-              label: "My First dataset",
-              fillColor: "rgba(220,220,220,0.2)",
-              strokeColor: "rgba(220,220,220,1)",
-              pointColor: "rgba(220,220,220,1)",
-              pointStrokeColor: "#fff",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgba(220,220,220,1)",
-              data: rand(32, 100, 7)
-          },
-          {
-              label: "My Second dataset",
-              fillColor: "rgba(151,187,205,0.2)",
-              strokeColor: "rgba(151,187,205,1)",
-              pointColor: "rgba(151,187,205,1)",
+              label: "Pass",
+              fillColor: "rgba(194, 232, 170, 0.1)",
+              strokeColor: "rgba(194, 232, 170, 0.8)",
+              pointColor: "rgba(194, 232, 170, 1)",
               pointStrokeColor: "#fff",
               pointHighlightFill: "#fff",
               pointHighlightStroke: "rgba(151,187,205,1)",
-              data: rand(32, 100, 7)
+              data: rand(0, 15, 20)
+          },
+          {
+              label: "Fails",
+              fillColor: "rgba(250, 106, 106, 0.05)",
+              strokeColor: "rgba(250, 106, 106, 0.7)",
+              pointColor: "rgba(250, 106, 106, 1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,220,220,1)",
+              data: rand(0, 15, 20)
           }
         ]
   },
