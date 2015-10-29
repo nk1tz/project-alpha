@@ -13,6 +13,21 @@
     height: 60vh;
 }
 
+  #betabox{
+    margin-left: 10px;
+    background:#594277;
+  }
+
+#total-closed-pullrequests-number{
+  
+  color: white;
+  text-align: center;
+  font-size:2em;
+  padding-top:20%;
+  height:250px;
+  
+}
+
 
 /*
  * Full-page application style
@@ -91,3 +106,4 @@ body.application hr {
   font-size: 12px;
   padding: 8px 10px 5px;
 }
+

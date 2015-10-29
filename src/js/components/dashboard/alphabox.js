@@ -13,9 +13,9 @@ var AlphaBox = React.createClass({
   },
   
   _selectorsChanged: function(dataSelects){
-    console.log(dataSelects);
-    console.log(dmtldata.dmtldata[dataSelects.team].students[dataSelects.person].PRdata);
-    this.setState({dataSet: dmtldata.dmtldata[dataSelects.team].students[dataSelects.person].PRdata});
+    this.setState({dataSet: dmtldata.dmtldata[dataSelects.team].students[dataSelects.person].PRdata}, function(){
+      this.props.updateSelects(dataSelects);
+    }.bind(this));
   },
   
   _alphaChanged: function(newRange) {
@@ -30,7 +30,7 @@ var AlphaBox = React.createClass({
                 <div className="col-sm-12">
                   <div className="chart-wrapper">
                     <div className="chart-title">
-                      Number of pull requests open and closed
+                      Open Pull Requests
                       <small className="pull-right">
                         <Selectors onChange={this._selectorsChanged} />
                       </small>
