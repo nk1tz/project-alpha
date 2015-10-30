@@ -47,7 +47,7 @@ var Dashboard = React.createClass({
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <DeltaBox range={this.state.range} />
+                        <DeltaBox />
                     </div>
                 </div>
             </div>

@@ -23,7 +23,6 @@ var AlphaBox = React.createClass({
   },
   
     render: function(){
-
         return(
             <div className="row">
             

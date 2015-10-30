@@ -98,4 +98,5 @@ body.application hr {
   text-align: center;
   margin-top: -300px;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  pointer-events: none; }

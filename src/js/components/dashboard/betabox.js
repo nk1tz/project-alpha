@@ -55,6 +55,7 @@ var BetaBox = React.createClass({
         return ele[1]-relevantDataBrute[0][1];
       }); 
       
+      
         return(
             <div className="row">
 

@@ -25,9 +25,8 @@ var GammaBox = React.createClass({
     // commentsData: 
     
     render: function(){
-
+console.log('im rendering gammabox');
       var dataTemp = dmtldata.dmtldata[this.props.dataSelects.team].students[this.props.dataSelects.person].CommentsData;
-      console.log(this.props.dataSelects);
       var minTime = this.props.range.min;
       var maxTime = this.props.range.max;
       var startInd = dataTemp.findIndex(function(ele, ind, arr){
@@ -42,7 +41,6 @@ var GammaBox = React.createClass({
         });
       
       var relevantData = dataTemp.slice(startInd, endInd + 1);
-      console.log(relevantData);
       
       
         return(
