@@ -62,7 +62,7 @@ body.application hr {
   margin-bottom: 10px; }
 
 .chart-wrapper .chart-title {
-  border-bottom: 1px solid #9077CC;
+  border-bottom: 2px solid #9077CC;
   color: #9077CC;
   font-size: 14px;
   font-weight: 200;
@@ -75,7 +75,7 @@ body.application hr {
   position: relative; }
 
 .chart-wrapper .chart-notes {
-  border-top: 1px solid #9077CC;
+  border-top: 2px solid #9077CC;
   color: #9077CC;
   font-size: 12px;
   padding: 8px 10px 5px; }
@@ -88,3 +88,14 @@ body.application hr {
 
 #second-choice {
   background-color: black; }
+
+#bigNumber {
+  z-index: 100;
+  position: absolute;
+  background: transparent;
+  font-size: 5em;
+  color: #E1E7E9;
+  text-align: center;
+  margin-top: -300px;
+  width: 100%;
+  height: 100%; }

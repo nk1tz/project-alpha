@@ -11,7 +11,7 @@ var IndexRoute = ReactRouter.IndexRoute;
 var App = React.createClass({
     render: function(){
         return (
-            <div>
+            <div >
                 <Header />
                 <Dashboard />
             </div>

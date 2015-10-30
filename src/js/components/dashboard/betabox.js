@@ -63,8 +63,12 @@ var BetaBox = React.createClass({
                     <div className="chart-title">
                       Closed Pull Requests
                     </div>
-                    <div className="chart-stage">
-                        <BetaChart relevantData={relevantData} closedTotal={closedTotal} />
+                    <div id="chart-stage">
+                      <BetaChart relevantData={relevantData} closedTotal={closedTotal} />
+                        <div id="bigNumber">
+                          {closedTotal}
+                        </div>
+                        
                     </div>
                     <div className="chart-notes">
                       

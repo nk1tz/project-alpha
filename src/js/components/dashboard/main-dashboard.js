@@ -38,10 +38,10 @@ var Dashboard = React.createClass({
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-12 col-md-3">
+                    <div className="col-sm-12 col-md-4">
                         <BetaBox range={this.state.range} dataSelects={this.state.dataSelects} />
                     </div>
-                    <div className="col-sm-12 col-md-9">
+                    <div className="col-sm-12 col-md-8">
                         <GammaBox range={this.state.range} dataSelects={this.state.dataSelects} />
                     </div>
                 </div>

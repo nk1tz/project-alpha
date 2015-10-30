@@ -70,13 +70,13 @@ var config = {
       plotBorderColor: '#606063'
    },
    xAxis: {
-      gridLineColor: '#707073',
+      gridLineColor: 'rgba(32, 52, 69, 0.2)',
       labels: {
          style: {
             color: '#E0E0E3'
          }
       },
-      lineColor: '#707073',
+      lineColor: 'rgba(32, 52, 69, 0.2)',
       minorGridLineColor: '#505053',
       tickColor: '#707073',
       title: {
@@ -163,18 +163,18 @@ var config = {
       buttonOptions: {
          symbolStroke: '#DDDDDD',
          theme: {
-            fill: '#505053'
+            fill: '#3C76A8'
          }
       }
    },
 
    navigator: {
       handles: {
-         backgroundColor: '#666',
-         borderColor: '#AAA'
+         backgroundColor: '#9077CC',
+         borderColor: '#9077CC'
       },
       outlineColor: '#CCC',
-      maskFill: 'rgba(255,255,255,0.1)',
+      maskFill: 'rgba(34, 67, 128, 0.3)',
       series: {
          color: '#7798BF',
          lineColor: '#A6C7ED'

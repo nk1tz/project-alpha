@@ -28,6 +28,7 @@ var Header = React.createClass({
                           <li><a href="https://github.com/orgs/DecodeMTL/people">Students</a></li>
                           <li><a href="https://github.com/orgs/DecodeMTL/teams">Teams</a></li>
                         </ul>
+                        <img src={'https://files.slack.com/files-pri/T045DMA9Q-F0DFLN8E7/github-octocat444.png'} alt="logo" className="pull-right img" />
                       </div>
                     </div>
                   </div>
