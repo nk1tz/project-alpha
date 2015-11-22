@@ -42,7 +42,7 @@ var config = {
    },
   series: [{
     type: 'column',
-    name: 'OpenPRs',
+    name: 'Comments',
     data: data,
   }],
   colors: ["#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
@@ -92,14 +92,14 @@ var config = {
       }
    },
    yAxis: {
-      gridLineColor: '#707073',
+      gridLineColor: '#272739',
       labels: {
          style: {
             color: '#E0E0E3'
          }
       },
-      lineColor: '#707073',
-      minorGridLineColor: '#505053',
+      lineColor: '#272739',
+      minorGridLineColor: '#272739',
       tickColor: '#707073',
       tickWidth: 1,
       title: {

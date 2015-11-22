@@ -20,9 +20,9 @@ var Header = React.createClass({
                 <div className="navbar navbar-inverse" role="navigation">
                     <div className="container-fluid">
                       <div className="navbar-header">
-                        <a className="navbar-brand" href="index.html">DecodeMTL - Github dashboard</a>
+                        <a className="navbar-brand" id="brandName" href="index.html">GitHubbers</a>
                       </div>
-                      <div className="navbar-collapse collapse">
+                      <div className="navbar-collapse collapse" id="navLinks">
                         <ul className="nav navbar-nav navbar-left">
                           <li><a href="https://github.com/DecodeMTL">Repositories</a></li>
                           <li><a href="https://github.com/orgs/DecodeMTL/people">Students</a></li>

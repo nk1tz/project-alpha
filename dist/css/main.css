@@ -100,3 +100,10 @@ body.application hr {
   width: 100%;
   height: 100%;
   pointer-events: none; }
+
+#brandName {
+  font-size: 2em;
+  font-family: 'Syncopate', sans-serif; }
+
+#navLinks {
+  font-family: 'Ubuntu', sans-serif; }

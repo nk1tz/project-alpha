@@ -74,7 +74,7 @@ var config = {
          }
       },
       lineColor: 'rgba(32, 52, 69, 0.2)',
-      minorGridLineColor: '#505053',
+      minorGridLineColor: '#272739',
       tickColor: '#707073',
       title: {
          style: {
@@ -84,14 +84,14 @@ var config = {
       }
    },
    yAxis: {
-      gridLineColor: '#707073',
+      gridLineColor: '#272739',
       labels: {
          style: {
             color: '#E0E0E3'
          }
       },
-      lineColor: '#707073',
-      minorGridLineColor: '#505053',
+      lineColor: '#272739',
+      minorGridLineColor: '#272739',
       tickColor: '#707073',
       tickWidth: 1,
       title: {
