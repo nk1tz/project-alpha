@@ -6,11 +6,17 @@ var source = require('vinyl-source-stream');
 var sass = require('gulp-sass');
 
 gulp.task('browserify', function() {
-   browserify('./src/js/main.js')
+   browserify({entries: './src/js/main.js', debug: true})
     .transform('reactify')
     .bundle()
     .pipe(source('main.js'))
     .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('sass', function () {
+  gulp.src('src/scss/main.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('copy', function() {

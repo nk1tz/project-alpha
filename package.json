@@ -9,9 +9,20 @@
   "author": "Nathaniel",
   "license": "ISC",
   "dependencies": {
+    "browserify": "^11.2.0",
+    "chart.js": "^1.0.2",
+    "flux": "^2.1.1",
+    "gulp": "^3.9.0",
     "react": "^0.14.0",
+    "react-addons-pure-render-mixin": "^0.14.0",
     "react-bootstrap": "^0.27.2",
-    "react-dom": "^0.14.0"
+    "react-chartjs": "^0.6.0",
+    "react-dom": "^0.14.0",
+    "react-highcharts": "^4.0.0",
+    "react-router": "^1.0.0-rc3",
+    "reactify": "^1.1.1",
+    "underscore": "^1.8.3",
+    "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {
     "gulp-sass": "^2.0.4"
